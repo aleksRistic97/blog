@@ -25,7 +25,7 @@ class Post
     private ?string $slug = null;
 
     /**
-     * @var Collection<int, tag>
+     * @var Collection<int, Tag>
      */
     #[ORM\ManyToMany(targetEntity: tag::class, inversedBy: 'posts')]
     private Collection $tags;
@@ -81,14 +81,14 @@ class Post
     }
 
     /**
-     * @return Collection<int, tag>
+     * @return Collection<int, Tag>
      */
     public function getTags(): Collection
     {
         return $this->tags;
     }
 
-    public function addTag(tag $tag): static
+    public function addTag(Tag $tag): static
     {
         if (!$this->tags->contains($tag)) {
             $this->tags->add($tag);
@@ -97,7 +97,7 @@ class Post
         return $this;
     }
 
-    public function removeTag(tag $tag): static
+    public function removeTag(Tag $tag): static
     {
         $this->tags->removeElement($tag);
 
