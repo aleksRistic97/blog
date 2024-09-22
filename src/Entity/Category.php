@@ -6,6 +6,7 @@ use App\Repository\CategoryRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Tests\Fixtures\ToString;
 
 #[ORM\Entity(repositoryClass: CategoryRepository::class)]
 class Category
@@ -105,4 +106,11 @@ class Category
 
         return $this;
     }
+
+
+    public function __toString(): string
+    {
+        return $this->title; // ili neki drugi atribut koji želiš prikazati
+    }
+
 }

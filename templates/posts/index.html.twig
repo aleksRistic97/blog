@@ -1,10 +1,19 @@
-{% extends 'base.html.twig' %} 
+{% extends './base.html.twig' %} 
 
 {% block title %}
     Posts Page
 {% endblock %}
 
 {% block body %}
+
+<div class="mx-auto w-4/5 my-8">
+        <a 
+            href="/posts/create" 
+            class="uppercase border border-gray-500 text-lg py-4 px-6 rounded transition transition-all bg-gray-800 text-white hover:bg-white hover:text-gray-800">
+            Dodaj novi post
+        </a>
+    </div>
+
      {% for post in posts %}
         <div class="text-center pt-8 pb-4">
                 <h2 class="text-gray-700 font-bold text-3xl py-2">
@@ -33,9 +42,9 @@
                      {% endfor %}
                 </p>
 
-              {#   <a href="/movies/{{ movie.id }}" class="uppercase border border-gray-500 text-gray-600 text-lg py-4 px-12 rounded transition transition-all hover:bg-gray-800 hover:text-white">
-                    Keep Reading
-                </a> #}
+                <a href="/posts/{{ post.id }}" class="uppercase border border-gray-500 text-gray-600 text-lg py-4 px-12 rounded transition transition-all hover:bg-gray-800 hover:text-white">
+                    Opsirnije
+                </a>  
         </div>
     {% endfor %} 
 {% endblock %}
