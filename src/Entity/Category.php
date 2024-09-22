@@ -21,7 +21,7 @@ class Category
     #[ORM\Column(length: 255)]
     private ?string $slug = null;
 
-    #[ORM\ManyToOne(targetEntity: self::class, inversedBy: 'category_id')]
+    #[ORM\ManyToOne(targetEntity: Category::class, inversedBy: 'category_id')]
     private ?self $category = null;
 
     /**

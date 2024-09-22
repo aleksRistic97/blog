@@ -27,12 +27,12 @@ class Post
     /**
      * @var Collection<int, Tag>
      */
-    #[ORM\ManyToMany(targetEntity: tag::class, inversedBy: 'posts')]
+    #[ORM\ManyToMany(targetEntity: Tag::class, inversedBy: 'posts')]
     private Collection $tags;
 
     #[ORM\ManyToOne(inversedBy: 'posts')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?category $category = null;
+    private ?Category $category = null;
 
     public function __construct()
     {
@@ -104,15 +104,24 @@ class Post
         return $this;
     }
 
-    public function getCategory(): ?category
+    //ovo mi je za podkategoriju
+    public function getCategory(): ?Category
     {
         return $this->category;
     }
 
-    public function setCategory(?category $category): static
+    public function setCategory(?Category $category): static
     {
         $this->category = $category;
 
         return $this;
+    }
+
+    //ovo mi je za kategoriju
+    public function getParentCategory(): ?Category
+    {
+        if($this->category->getCategory()){
+            return $this->category->getCategory();
+        }
     }
 }
