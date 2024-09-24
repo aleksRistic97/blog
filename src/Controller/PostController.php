@@ -11,6 +11,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 class PostController extends AbstractController
 {
@@ -28,13 +29,13 @@ class PostController extends AbstractController
         $posts=$repository->findAll();
 
     //    dd($posts);
-
+            // FIXME IMPLEMENT PAGINATOR
         return $this->render('posts/index.html.twig', [
             'posts'=>$posts]);
     }
 
     #[Route('/posts/create', name: 'create_post')]
-
+    #[IsGranted('IS_AUTHENTICATED_FULLY')]
     public function create(Request $request): Response
     {
        // $selectedCategory=101;
@@ -71,7 +72,7 @@ class PostController extends AbstractController
     } 
 
     #[Route('/posts/update/{id}', name: 'update_post')]
-
+    #[IsGranted('IS_AUTHENTICATED_FULLY')]
     public function update(Request $request, $id):Response{
 
        $repository=$this->em->getRepository(Post::class);

@@ -19,6 +19,13 @@ services:
             - '../src/DependencyInjection/'
             - '../src/Entity/'
             - '../src/Kernel.php'
+        
+  #  App\Service\MailjetService:
+    
+   #     arguments:
+     
+    #       $apiKey: '%env(d1e46d261f8fe52ec17c09240813c5d5)%'
+     #      $apiSecret: '%env(21468d63a89925971c68af9713772655)%'
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
