@@ -19,6 +19,12 @@ services:
             - '../src/DependencyInjection/'
             - '../src/Entity/'
             - '../src/Kernel.php'
+    App\Service\EmailService:
+        arguments:
+            $mailer: '@mailer'
+            $emailVerifier: '@App\Security\EmailVerifier'
+            $router: '@router'
+
         
   #  App\Service\MailjetService:
     

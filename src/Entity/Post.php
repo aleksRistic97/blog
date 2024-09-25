@@ -6,8 +6,10 @@ use App\Repository\PostRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 #[ORM\Entity(repositoryClass: PostRepository::class)]
+#[UniqueEntity(fields: ['slug'], message: 'Slug must have unique value.')]
 class Post
 {
     #[ORM\Id]
@@ -21,7 +23,7 @@ class Post
     #[ORM\Column(length: 255)]
     private ?string $description = null;
 
-    #[ORM\Column(length: 50)]
+    #[ORM\Column(length: 50, unique:true)]
     private ?string $slug = null;
 
     /**

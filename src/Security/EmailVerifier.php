@@ -12,14 +12,16 @@ use SymfonyCasts\Bundle\VerifyEmail\VerifyEmailHelperInterface;
 
 class EmailVerifier
 {
+    private VerifyEmailHelperInterface $verifyEmailHelper;
     public function __construct(
-        private VerifyEmailHelperInterface $verifyEmailHelper,
+         VerifyEmailHelperInterface $verifyEmailHelper,
         private MailerInterface $mailer,
         private EntityManagerInterface $entityManager
     ) {
+        $this->verifyEmailHelper=$verifyEmailHelper;
     }
 
-    public function sendEmailConfirmation(string $verifyEmailRouteName, User $user, TemplatedEmail $email): void
+   /*  public function sendEmailConfirmation(string $verifyEmailRouteName, User $user, TemplatedEmail $email): void
     {
         $signatureComponents = $this->verifyEmailHelper->generateSignature(
             $verifyEmailRouteName,
@@ -36,7 +38,32 @@ class EmailVerifier
         $email->context($context);
 
         $this->mailer->send($email);
+    } */
+
+    public function generateEmailContext(string $routeName, User $user): array
+    {
+      // dd('Pozvana metoda iz emailverifier da generise kontekst');
+        
+       $signatureComponents = $this->verifyEmailHelper->generateSignature(
+            $routeName,
+            (string) $user->getId(),
+            (string) $user->getEmail(),
+            ['id' => $user->getId()]
+        );
+
+   //     dd('proslo');
+        return [
+            'signedUrl' => $signatureComponents->getSignedUrl(),
+            'expiresAtMessageKey' => $signatureComponents->getExpirationMessageKey(),
+            'expiresAtMessageData' => $signatureComponents->getExpirationMessageData(),
+            'user' => $user,
+        ];
+
+      /*   if ($resetToken) {
+            $context['resetUrl'] = $resetToken;
+        } */
     }
+
 
     /**
      * @throws VerifyEmailExceptionInterface
