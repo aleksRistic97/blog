@@ -7,27 +7,77 @@
     <title>{% block title %}My Symfony Project{% endblock %}</title>
 
     {# Dodaj UIkit CSS #}
-    <link rel="stylesheet" href="{{ asset('css/uikit.min.css') }}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.7.3/dist/css/uikit.min.css" />
+    <script src="https://cdn.jsdelivr.net/npm/uikit@3.7.3/dist/js/uikit.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/uikit@3.7.3/dist/js/uikit-icons.min.js"></script>
+    <script src="https://cdn.tiny.cloud/1/3v7u4uxn9nzssujuvzu64v6azfs6uzubv16n44c630tuo5qs/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
+   
+ 
 
     {% block stylesheets %}
+      
             {{ encore_entry_link_tags('app') }}
     {# Ovde možeš dodati dodatne CSS fajlove specifične za određene stranice #}
     {% endblock %}
 
 </head>
-<body>
+<body class="uk-height-viewport">
+
+    {% block navbar %}
+        <div uk-sticky="sel-target: .uk-navbar-container; cls-active: uk-navbar-sticky">
+            <nav class="uk-navbar-container">
+                <div class="uk-container">
+                    <div uk-navbar>
+
+                        <div class="uk-navbar-left">
+
+                            <ul class="uk-navbar-nav">
+                                <li class="uk-active"><a href="{{path('posts')}}">Homepage</a></li>
+                            </ul>
+
+                        </div>
+
+                        <div class="uk-navbar-right">
+                            <ul class="uk-navbar-nav">
+                                {% block navbar_buttons %}
+                                    {% if app.user %}
+                                        <li>
+                                            <a>
+                                                <span uk-icon="user"></span> Welcome,  {{ app.user.email | slice(0, 20) }}...
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="{{ path('app_logout') }}">
+                                                <span uk-icon="sign-out"></span> Logout
+                                            </a>
+                                        </li>
+                                    {% else %}
+                                        <li><a href="{{ path('app_login') }}">Sign in</a></li>
+                                        <li><a href="{{ path('app_register') }}">Register</a></li>
+                                    {% endif %}
+                                {% endblock %}
+                            </ul>
+
+                        </div>
+
+                    </div>
+                </div>
+            </nav>
+        </div>
+    {% endblock %}
 
     {% block body %}
         
     {% endblock %}
-
-    {# Dodaj UIkit JavaScript #}
-    <script src="{{ asset('js/uikit.min.js') }}"></script>
-    <script src="{{ asset('js/uikit-icons.min.js') }}"></script>
+    
 
     {% block javascripts %}
             {{ encore_entry_script_tags('app') }}
     {# Ovde možeš dodati dodatne JS fajlove specifične za određene stranice #}
     {% endblock %}
+
 </body>
+
+
+
 </html>

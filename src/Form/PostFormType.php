@@ -10,6 +10,8 @@ use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
@@ -23,24 +25,25 @@ class PostFormType extends AbstractType
 
         $builder
             ->add('title')
-            ->add('description')
+            ->add('description', TextType::class,[
+                'attr' => [
+                'id'=>'description'
+                ]
+            ])
             ->add('slug')
             ->add('tags', EntityType::class, [
                 'class' => Tag::class,
                 'choice_label' => 'title',
                 'multiple' => true,
             ])
-          /*   ->add('category', EntityType::class, [
-                'class' => Category::class,
-                'choice_label' => 'title',
-                'placeholder' => 'Izaberi kategoriju',
-            ]) */
+     
             ->add('category', EntityType::class, [
                 'class' => Category::class,
                 'choice_label' => function (Category $category) {
-                    if ($category->getCategory()) {
-                        return $category->getCategory()->getTitle() . ' - ' . $category->getTitle();
-                    }
+                    return $category->getCategory() ?
+                        $category->getCategory()->getTitle() . ' - ' . $category->getTitle()
+                        : $category->getTitle();
+                    
                 },
                 'query_builder' => function (EntityRepository $er) {
                     return $er->createQueryBuilder('c')

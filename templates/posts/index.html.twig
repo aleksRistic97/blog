@@ -8,61 +8,44 @@
   
 {% endblock %}
 
+
 {% block body %}
 
- <nav>
-    {% if app.user %}
-        Zdravo, {{ app.user.userIdentifier }}!
-        <a href="{{ path('app_logout') }}">Odjavi se</a>
-    {% else %}
-        <a href="{{ path('app_login') }}">Prijavi se</a>
-        <a href="{{ path('app_register') }}">Registruj se</a>
-    {% endif %}
+    <h1></h1>
+ {% if app.user %}
+        <p uk-margin class="uk-text-center">
+          
+            <a class="uk-button uk-button-primary uk-button-large" href={{path('create_post')}}>Add new post</a>
+        </p>
+ {% endif %}
 
-    </nav>
-
-
-<div class="mx-auto w-4/5 my-8">
-    {% if app.user %}
-        <a 
-            href="/posts/create" 
-            class="uppercase border border-gray-500 text-lg py-4 px-6 rounded transition transition-all bg-gray-800 text-white hover:bg-white hover:text-gray-800">
-            Dodaj novi post
-        </a>
-    {% endif %}
-</div>
-
-     {% for post in posts %}
-        <div class="text-center pt-8 pb-4">
-                <h2 class="text-gray-700 font-bold text-3xl py-2">
-                    {{ post.title }}
-                </h2>
-
-                <p class="text-base text-gray-700 pt-4 pb-10 leading-8 font-light">
-                    {{ post.description }}
-                </p>
-
-                <p class="text-base text-gray-700 pt-4 pb-10 leading-8 font-light">
-                    {{ post.slug }}
-                </p>
-
-                <p class="text-base text-gray-700 pt-4 pb-10 leading-8 font-light">
-                    Kategorija: {{ post.getParentCategory.title }}
-                </p>
-
-                <p class="text-base text-gray-700 pt-4 pb-10 leading-8 font-light">
-                    Podktegorija: {{ post.getCategory.title }}
-                </p>
-
-                <p class="text-base text-gray-700 pt-4 pb-10 leading-8 font-light">
-                    {% for tag in post.getTags %}
-                        #{{ tag.title }}
-                     {% endfor %}
-                </p>
-
-                <a href="/posts/{{ post.id }}" class="uppercase border border-gray-500 text-gray-600 text-lg py-4 px-12 rounded transition transition-all hover:bg-gray-800 hover:text-white">
-                    Opsirnije
-                </a>  
+ 
+        <h2 class="uk-text-center ">Blog Posts</h2>
+       
+        {% if pagination.items|length > 0 %}
+         <div class="uk-container">
+            <div class="uk-grid-small uk-child-width-1-3@m uk-child-width-1-2@s uk-grid-match uk-flex-center" uk-grid> 
+                {% for post in pagination.items %}
+                    <div >
+                        <article class="uk-article uk-card uk-card-default uk-card-body">
+                                <h3 class="uk-card-title">{{ post.title }}</h3>
+                                <p>{{ post.description }}</p>
+                                <a href="{{ path('show_post', {'slug': post.slug}) }}" class="uk-button uk-button-text">Read more</a>
+                        </article>      
+                    </div>
+                {% endfor %}
+              
+            </div> 
         </div>
-    {% endfor %} 
+           
+               
+   <div class="uk-margin-large-top uk-text-center">
+    {{ knp_pagination_render(pagination) }}
+   </div>
+    
+        {% else %}
+             <p class="uk-alert-warning" uk-alert>No posts found.</p>
+        {% endif %}
+  
+     
 {% endblock %}

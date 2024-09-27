@@ -10,6 +10,7 @@ use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Mime\Address;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Attribute\Route;
@@ -27,15 +28,17 @@ class RegistrationController extends AbstractController
 
 
     #[Route('/register', name: 'app_register')]
-    public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager): Response
+    public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, 
+                            EntityManagerInterface $entityManager, SessionInterface $session): Response
     {
         $user = new User();
 
         $form = $this->createForm(RegistrationFormType::class, $user);
         $form->handleRequest($request);
+        
 
         if ($form->isSubmitted() && $form->isValid()) {
-
+           
             /** @var string $plainPassword */
             $plainPassword = $form->get('plainPassword')->getData();
             // encode the plain password
@@ -45,9 +48,10 @@ class RegistrationController extends AbstractController
             $entityManager->persist($user);
             $entityManager->flush();
             // generate a signed url and email it to the user
+            $session->set('registration_completed', true);
+
             $this->emailService->sendVerificationEmail($user, 'app_verify_email');
-            // do anything else you need here, like send an email
-            $this->emailService->sendWelcomeEmail($user);
+            
 
             return $this->redirectToRoute('verify_pending');
         }
@@ -58,6 +62,8 @@ class RegistrationController extends AbstractController
     #[Route('/verify/email', name: 'app_verify_email')]
     public function verifyUserEmail(Request $request, UserRepository $userRepository): Response
     {
+
+
         $id = $request->query->get('id');
         if (null === $id) {
             return $this->redirectToRoute('app_register');
@@ -69,6 +75,9 @@ class RegistrationController extends AbstractController
         // validate email confirmation link, sets User::isVerified=true and persists
         try {
             $this->emailVerifier->handleEmailConfirmation($request, $user);
+            $this->emailService->sendWelcomeEmail($user);
+        
+
         } catch (VerifyEmailExceptionInterface $exception) {
             $this->addFlash('verify_email_error', $exception->getReason());
             return $this->redirectToRoute('app_register');
@@ -78,7 +87,15 @@ class RegistrationController extends AbstractController
         return $this->redirectToRoute('posts');
     }
     #[Route('/verify_pending', name: 'verify_pending')]
-    public function verifyPending():Response{
+    public function verifyPending(SessionInterface $session):Response{
+        if (!$session->get('registration_completed')) {
+            // Ako nije, preusmeri ga na registracionu stranicu
+            $this->addFlash('error', 'You must complete registration before accessing this page.');
+            return $this->redirectToRoute('app_register');
+        }
+
+        // Očisti indikator iz sesije da se ne može ponovo pristupiti stranici bez registracije
+        $session->remove('registration_completed');
         return $this->render('registration/verify_email.html.twig');
     }
 }

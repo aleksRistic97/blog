@@ -6,6 +6,8 @@ use App\Entity\Post;
 use App\Form\PostFormType;
 use App\Repository\PostRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\Tools\Pagination\Paginator;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -16,22 +18,30 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 class PostController extends AbstractController
 {
     private $em;
+    private PaginatorInterface $paginator;
 
-    public function __construct(EntityManagerInterface $em){
+    public function __construct(EntityManagerInterface $em, PaginatorInterface $paginator){
         $this->em=$em;
+        $this->paginator=$paginator;
     }
 
     #[Route('/posts', methods:['GET'], name: 'posts')]
-    public function index(): Response
+    public function index(Request $request): Response
     {
-        
+        // FIXME IMPLEMENT PAGINATOR
         $repository=$this->em->getRepository(Post::class);
-        $posts=$repository->findAll();
+        $queryBuilder = $repository->createQueryBuilder('post');
+       
 
+        $pagination=$this->paginator->paginate($queryBuilder,
+        $request->query->getInt('page',1),
+        20);
+
+       //dd($pagination);
     //    dd($posts);
-            // FIXME IMPLEMENT PAGINATOR
+
         return $this->render('posts/index.html.twig', [
-            'posts'=>$posts]);
+            'pagination'=>$pagination]);
     }
 
     #[Route('/posts/create', name: 'create_post')]
@@ -55,33 +65,35 @@ class PostController extends AbstractController
         } 
 
         return $this->render('posts/create.html.twig', [
-            'form' => $form->createView()
+            'form' => $form->createView(),
         ]);
 
     }
-     #[Route('/posts/{id}', methods:['GET'], name: 'show_post')]
-    public function show($id): Response
+     #[Route('/posts/{slug}', methods:['GET'], name: 'show_post')]
+    public function show($slug): Response
     {
         
         $repository=$this->em->getRepository(Post::class);
-        $post=$repository->find($id);
-    //    dd($posts);
+        $post=$repository->findOneBy(['slug' => $slug]);
+      //  dd($post);
 
         return $this->render('posts/show.html.twig', [
             'post'=>$post]);
     } 
 
-    #[Route('/posts/update/{id}', name: 'update_post')]
+    #[Route('/posts/update/{slug}', name: 'update_post')]
     #[IsGranted('IS_AUTHENTICATED_FULLY')]
-    public function update(Request $request, $id):Response{
+    public function update(Request $request, $slug):Response{
 
        $repository=$this->em->getRepository(Post::class);
-       $post=$repository->find($id);
-
+       $post=$repository->findOneBy(['slug' => $slug]);
+       
        $form=$this->createForm(PostFormType::class, $post);
 
-       $form->handleRequest($request);
 
+       $form->handleRequest($request);
+   
+     
        if($form->isSubmitted() && $form->isValid()){
             $this->em->persist($post);
             $this->em->flush();
@@ -91,7 +103,8 @@ class PostController extends AbstractController
        
        return $this->render('posts/update.html.twig',[
         'post'=>$post,
-        'form'=>$form->createView()
+        'form'=>$form->createView(),
+        'disabled'=>true
        ]);
     }
 }

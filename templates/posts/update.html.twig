@@ -1,21 +1,110 @@
 {% extends "./base.html.twig" %}
 
 {% block body %}
-<div class="w-4/5 m-auto pt-40">
-    <h1 class="text-6xl text-center pb-12">
-        Update Post
-    </h1>
+   
+    <h1></h1>
+    <h2 class="uk-heading-line uk-text-center">Edit post - {{post.title}}</h2>
+    <div class="uk-container uk-container-expand uk-margin-large-left uk-margin-large-right">
+        {{ form_start(form) }}
+            <div class="uk-margin">
+                <label class="uk-form-label">Title</label>
+                <div class="uk-form-controls">
+                    {{ form_widget(form.title, {'attr': {'class': 'uk-input'}}) }}
+                </div>
+            </div>
 
-    {{ form_start(form) }}
+            <div class="uk-margin">
+                <label class="uk-form-label" >Description</label>
+                <div class="uk-form-controls">
+                    {{ form_widget(form.description, {'attr': {'class': 'uk-textarea', 'id':'description'}}) }}
+                </div>
+            </div>
 
-        {{ form_widget(form) }}
+   
+          <div class="uk-margin">
+                <label class="uk-form-label" >Slug</label>
+                <div class="uk-form-controls">
+                {% if disabled %}
+                    {{ form_widget(form.slug, {'attr': {'class': 'uk-input', 'readonly': 'readonly'}}) }}
+                 {% endif %}   
+                    
+                </div>
+            </div>      
+
+    
+            <div class="uk-margin">
+                <label class="uk-form-label" >Tags</label>
+                <div class="uk-form-controls">
+                    {{ form_widget(form.tags, {'attr': {'class': 'uk-select', 'multiple': 'multiple', 'size': '5'}}) }}
+                </div>
+            </div>
+
+    
+            <div class="uk-margin">
+                <label class="uk-form-label" >Category</label>
+                <div class="uk-form-controls">
+                    {{ form_widget(form.category, {'attr': {'class': 'uk-select'}}) }}
+                </div>
+            </div>
+
+            <div class="uk-margin">
+                <button type="submit" class="uk-button uk-button-primary uk-button-center">Save</button>
+            </div>
+        {{ form_end(form) }}
         
-        <button    
-            type="submit"
-            class="uppercase mt-15 bg-blue-500 text-gray-100 text-lg font-extrabold py-4 px-8 rounded-3xl">
-            Submit Post
-        </button>
+        
+          
+    </div> 
+    
+    <script>
+       
+        tinymce.init({
+            selector: '#description',
+            plugins: 'lists link image table code',
+            toolbar: 'undo redo | formatselect | bold italic backcolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | removeformat | code',
+            menubar: false,
+            height: 300,
+        });
+    
+    </script>
+</body>
+</html>
 
-    {{ form_end(form) }}
-</div>
 {% endblock %}
+
+{# <form>
+    <fieldset class="uk-fieldset">
+
+        <legend class="uk-legend">Legend</legend>
+
+        <div class="uk-margin">
+            <input class="uk-input" type="text" placeholder="Input" aria-label="Input">
+        </div>
+
+        <div class="uk-margin">
+            <select class="uk-select" aria-label="Select">
+                <option>Option 01</option>
+                <option>Option 02</option>
+            </select>
+        </div>
+
+        <div class="uk-margin">
+            <textarea class="uk-textarea" rows="5" placeholder="Textarea" aria-label="Textarea"></textarea>
+        </div>
+
+        <div class="uk-margin uk-grid-small uk-child-width-auto uk-grid">
+            <label><input class="uk-radio" type="radio" name="radio2" checked> A</label>
+            <label><input class="uk-radio" type="radio" name="radio2"> B</label>
+        </div>
+
+        <div class="uk-margin uk-grid-small uk-child-width-auto uk-grid">
+            <label><input class="uk-checkbox" type="checkbox" checked> A</label>
+            <label><input class="uk-checkbox" type="checkbox"> B</label>
+        </div>
+
+        <div class="uk-margin">
+            <input class="uk-range" type="range" value="2" min="0" max="10" step="0.1" aria-label="Range">
+        </div>
+
+    </fieldset>
+</form> #}

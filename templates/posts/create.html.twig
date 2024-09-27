@@ -1,21 +1,55 @@
 {% extends "./base.html.twig" %}
 
 {% block body %}
-<div class="w-4/5 m-auto pt-40">
-    <h1 class="text-6xl text-center pb-12">
-        Create Post
-    </h1>
-        
-    {{ form_start(form) }}
+<h1></h1>
+    <h2 class="uk-heading-line uk-text-center">Create new post</h2>
+    <div class="uk-container uk-container-expand uk-margin-large-left uk-margin-large-right">
+        {{ form_start(form) }}
+            <div class="uk-margin">
+                <label class="uk-form-label">Title</label>
+                <div class="uk-form-controls">
+                    {{ form_widget(form.title, {'attr': {'class': 'uk-input'}}) }}
+                </div>
+            </div>
 
-        {{ form_widget(form) }}
+            <div class="uk-margin">
+                <label class="uk-form-label" >Description</label>
+                <div class="uk-form-controls">
+                    {{ form_widget(form.description, {'attr': {'class': 'uk-textarea', 'id':'description'}}) }}
+                </div>
+            </div>
+
+   
+            <div class="uk-margin">
+                <label class="uk-form-label" >Slug</label>
+                <div class="uk-form-controls">
+               
+                    {{ form_widget(form.slug, {'attr': {'class': 'uk-input'}}) }}
+                </div>
+            </div>
+
+    
+            <div class="uk-margin">
+                <label class="uk-form-label" >Tags</label>
+                <div class="uk-form-controls">
+                    {{ form_widget(form.tags, {'attr': {'class': 'uk-select', 'multiple': 'multiple', 'size': '5'}}) }}
+                </div>
+            </div>
+
+    
+            <div class="uk-margin">
+                <label class="uk-form-label" >Category</label>
+                <div class="uk-form-controls">
+                    {{ form_widget(form.category, {'attr': {'class': 'uk-select'}}) }}
+                </div>
+            </div>
+
+            <div class="uk-margin">
+                <button type="submit" class="uk-button uk-button-primary uk-button-center">Save</button>
+            </div>
+        {{ form_end(form) }}
         
-        <button    
-            type="submit"
-            class="uppercase mt-15 bg-blue-500 text-gray-100 text-lg font-extrabold py-4 px-8 rounded-3xl">
-            Submit Post
-        </button>
-{# POGLEDATI  FORM THEMING#}
-    {{ form_end(form) }}
-</div>
+        
+          
+    </div> 
 {% endblock %}

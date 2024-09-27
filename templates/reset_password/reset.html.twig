@@ -3,10 +3,28 @@
 {% block title %}Reset your password{% endblock %}
 
 {% block body %}
-    <h1>Reset your password</h1>
-
+  
+   <div class="uk-container uk-container-expand uk-margin-large-left uk-margin-large-right">
+   <h1>Reset your password</h1>
     {{ form_start(resetForm) }}
-        {{ form_row(resetForm.plainPassword) }}
-        <button class="btn btn-primary">Reset password</button>
+        <div class="uk-margin uk-width-1-1 uk-width-1-3@m">
+                {{ form_label(resetForm.plainPassword.first, 'New Password') }}
+                <div class="uk-form-controls">
+                    {{ form_widget(resetForm.plainPassword.first, {'attr': {'class': 'uk-input', 'placeholder': 'Enter your new password'}}) }}
+                </div>
+            </div>
+
+            <div class="uk-margin uk-width-1-1 uk-width-1-3@m">
+                {{ form_label(resetForm.plainPassword.second, 'Repeat Password') }}
+                <div class="uk-form-controls">
+                    {{ form_widget(resetForm.plainPassword.second, {'attr': {'class': 'uk-input', 'placeholder': 'Repeat your new password'}}) }}
+                </div>
+            </div>
+
+        
+        <button class="uk-button uk-button-primary uk-button-center">Reset password</button>
     {{ form_end(resetForm) }}
+    
+    
+    </div>
 {% endblock %}
