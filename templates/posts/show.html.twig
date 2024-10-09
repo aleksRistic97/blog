@@ -6,16 +6,28 @@
     <article class="uk-article uk-margin uk-margin-large-left">
 
         <h1 class="uk-article-title"><a class="uk-link-reset" >{{post.title}}</a></h1>
+        
         <p>Category: {{post.category}}</p>
+        
         {% for tag in post.tags %}
             <span class="uk-article-meta uk-margin-small-right uk-margin-small-left">#{{tag.title}}</span>
         {% endfor %}
-        <p class="uk-text-lead">{{post.description}} </p>
+
+        <p class="uk-text-lead">{{post.description | raw}} </p>
+
+        <h3> Attachments: </h3>
+
+        {% for attachment in post.attachments %}
+            <li>
+                <a href="{{asset('uploads/'~ attachment.fileName)}}" target="blank">{{attachment.originalFileName}}</a>
+            </li>
+        {% else %}
+            <p>Nema priloga</p>
+        {% endfor %}
+        
         {% if app.user %}
             <a href="{{ path('update_post', {'slug': post.slug}) }}" class="uk-button uk-button-default uk-button-primary">Edit post</a>
-        {% endif %}
-        
-        
+        {% endif %}        
         
  
     </article>

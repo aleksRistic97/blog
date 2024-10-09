@@ -16,12 +16,12 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\String\Slugger\SluggerInterface;
 
 class PostFormType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        //$selectedCategory=$options['selected_category'];
 
         $builder
             ->add('title')
@@ -44,8 +44,17 @@ class PostFormType extends AbstractType
                 'query_builder' => function (EntityRepository $er) {
                     return $er->createQueryBuilder('c')
                     ->where('c.category IS NOT NULL');
-                }
-            ]); 
+                },
+            ])
+
+            ->add('attachments', CollectionType::class, [
+                'entry_type'=>AttachmentFormType::class,
+                'allow_add'=>true,
+                'allow_delete'=>true,
+                'by_reference'=>false,
+                'mapped' => false,
+            ]);  
+            
 
            
         }

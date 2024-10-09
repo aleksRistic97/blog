@@ -98,7 +98,7 @@ class Category
     public function removePost(Post $post): static
     {
         if ($this->posts->removeElement($post)) {
-            // set the owning side to null (unless already changed)
+           
             if ($post->getCategory() === $this) {
                 $post->setCategory(null);
             }
@@ -110,7 +110,7 @@ class Category
 
     public function __toString(): string
     {
-        return $this->title; // ili neki drugi atribut koji želiš prikazati
+        return $this->title; 
     }
 
 }

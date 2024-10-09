@@ -11,20 +11,14 @@
     <div class="uk-container uk-margin-large-left uk-margin-large-right">
 
     {{ form_errors(registrationForm) }}
-
+     
     {{ form_start(registrationForm) }}
-       {#  {{ form_row(registrationForm.email) }}
-        {{ form_row(registrationForm.plainPassword, {
-            label: 'Password'
-        }) }}
-        {{ form_row(registrationForm.agreeTerms) }}
-         #}
-
-        
+    
             <div class="uk-margin uk-width-1-1 uk-width-1-3@m">
                 <label class="uk-form-label">Email</label>
                 <div class="uk-form-controls">
                     {{ form_widget(registrationForm.email, {'attr': {'class': 'uk-input'}}) }}
+                    {{ form_errors(registrationForm.email) }}
                 </div>
             </div>
 

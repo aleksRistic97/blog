@@ -5,7 +5,7 @@
 {% endblock %}
 
 {% block head %}
-  
+
 {% endblock %}
 
 
@@ -29,9 +29,16 @@
                     <div >
                         <article class="uk-article uk-card uk-card-default uk-card-body">
                                 <h3 class="uk-card-title">{{ post.title }}</h3>
-                                <p>{{ post.description }}</p>
+                                {% if post.description|length>100 %}
+                                     {{ post.description | slice(0,100)  | raw  }}  ...    </strong> 
+                                {% else %}
+                                     {{ post.description | raw  }} 
+                                {% endif %}
+                                                     
+                                <div class="uk-margin-top uk-flex-auto"></div>
                                 <a href="{{ path('show_post', {'slug': post.slug}) }}" class="uk-button uk-button-text">Read more</a>
-                        </article>      
+                        </article>   
+                           
                     </div>
                 {% endfor %}
               
@@ -47,5 +54,6 @@
              <p class="uk-alert-warning" uk-alert>No posts found.</p>
         {% endif %}
   
+
      
 {% endblock %}

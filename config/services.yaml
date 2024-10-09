@@ -4,7 +4,7 @@
 # Put parameters here that don't need to change on each machine where the app is deployed
 # https://symfony.com/doc/current/best_practices.html#use-parameters-for-application-configuration
 parameters:
-
+    uploads_directory: '%kernel.project_dir%/public/uploads'
 services:
     # default configuration for services in *this* file
     _defaults:
@@ -25,13 +25,4 @@ services:
             $emailVerifier: '@App\Security\EmailVerifier'
             $router: '@router'
 
-        
-  #  App\Service\MailjetService:
-    
-   #     arguments:
-     
-    #       $apiKey: '%env(d1e46d261f8fe52ec17c09240813c5d5)%'
-     #      $apiSecret: '%env(21468d63a89925971c68af9713772655)%'
-
-    # add more service definitions when explicit configuration is needed
-    # please note that last definitions always *replace* previous ones
+ 

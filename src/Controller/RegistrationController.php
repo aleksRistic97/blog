@@ -41,13 +41,13 @@ class RegistrationController extends AbstractController
            
             /** @var string $plainPassword */
             $plainPassword = $form->get('plainPassword')->getData();
-            // encode the plain password
+         
             $user->setPassword($userPasswordHasher->hashPassword($user, $plainPassword));
             $user->setRoles(['ROLE_USER']);
            
             $entityManager->persist($user);
             $entityManager->flush();
-            // generate a signed url and email it to the user
+  
             $session->set('registration_completed', true);
 
             $this->emailService->sendVerificationEmail($user, 'app_verify_email');
@@ -56,7 +56,7 @@ class RegistrationController extends AbstractController
             return $this->redirectToRoute('verify_pending');
         }
         return $this->render('registration/register.html.twig', [
-            'registrationForm' => $form,
+            'registrationForm' => $form->createView()
         ]);
     }
     #[Route('/verify/email', name: 'app_verify_email')]

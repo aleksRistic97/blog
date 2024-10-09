@@ -47,6 +47,29 @@
                 </div>
             </div>
 
+           <div class="uk-margin">
+                <label class="uk-form-label">Attachment</label>
+                <ul>
+            {% for attachment in post.attachments %}
+                <li>
+                    <a href="{{ asset('uploads/' ~ attachment.fileName) }}" target="_blank">
+                        {{ attachment.originalFilename }}
+                    </a>
+                </li>
+            {% else %}
+                <li>No attachments found</li>
+            {% endfor %}
+        </ul>
+                
+                <div class="uk-form-controls" id="attachments-wrapper" 
+                     data-prototype="{{ form_widget(form.attachments.vars.prototype)|e('html_attr') }}">
+                        {{ form_widget(form.attachments) }}  
+                </div>
+                <button type="button" id="add-attachment" class="uk-button uk-button-primary uk-button-center">Add Attachment</button>
+            </div>
+
+     
+
             <div class="uk-margin">
                 <button type="submit" class="uk-button uk-button-primary uk-button-center">Save</button>
             </div>
@@ -60,9 +83,30 @@
        
         tinymce.init({
             selector: '#post_form_description',
-           
+              
         });
     
+    </script>
+
+     <script>
+
+        document.getElementById('add-attachment').addEventListener('click', function() {
+          
+            var collectionHolder = document.getElementById('attachments-wrapper');
+
+            var prototype = collectionHolder.getAttribute('data-prototype');
+
+            
+            var index = collectionHolder.querySelectorAll('input[type="file"]').length;
+
+           
+            var newForm = prototype.replace(/__name__/g, index);
+
+        
+            var newFormDiv = document.createElement('div');
+            newFormDiv.innerHTML = newForm;
+            collectionHolder.appendChild(newFormDiv);
+        });
     </script>
 </body>
 </html>

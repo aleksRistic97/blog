@@ -4,7 +4,9 @@
 <h1></h1>
     <h2 class="uk-heading-line uk-text-center">Create new post</h2>
     <div class="uk-container uk-container-expand uk-margin-large-left uk-margin-large-right">
-        {{ form_start(form) }}
+      {{ form_errors(form) }}
+        {{ form_start(form, {'attr': {'enctype': 'multipart/form-data'}}) }}
+      
             <div class="uk-margin">
                 <label class="uk-form-label">Title</label>
                 <div class="uk-form-controls">
@@ -25,7 +27,6 @@
                 <div class="uk-form-controls">
                
                     {{ form_widget(form.slug, {'attr': {'class': 'uk-input'}}) }}
-                </div>
             </div>
 
     
@@ -43,22 +44,49 @@
                     {{ form_widget(form.category, {'attr': {'class': 'uk-select'}}) }}
                 </div>
             </div>
+           
+            <div class="uk-margin">
+                <label class="uk-form-label">Attachment</label>
+                <div class="uk-form-controls" id="attachments-wrapper" 
+                     data-prototype="{{ form_widget(form.attachments.vars.prototype)|e('html_attr') }}">
+                        {{ form_widget(form.attachments) }}  
+                </div>
+                <button type="button" id="add-attachment" class="uk-button uk-button-primary uk-button-center">Add Attachment</button>
+            </div>
 
             <div class="uk-margin">
-                <button type="submit" class="uk-button uk-button-primary uk-button-center">Save</button>
+               <button type="submit"  class="uk-button uk-button-primary uk-button-center">Save</button>
             </div>
+
         {{ form_end(form) }}
-        
-        
-          
-    </div> 
 
     <script>
+
+        document.getElementById('add-attachment').addEventListener('click', function() {
+          
+            var collectionHolder = document.getElementById('attachments-wrapper');
+
+            var prototype = collectionHolder.getAttribute('data-prototype');
+
+            
+            var index = collectionHolder.querySelectorAll('input[type="file"]').length;
+
+           
+            var newForm = prototype.replace(/__name__/g, index);
+
+        
+            var newFormDiv = document.createElement('div');
+            newFormDiv.innerHTML = newForm;
+            collectionHolder.appendChild(newFormDiv);
+        });
+    </script>
+
+   {# <script>
        
         tinymce.init({
             selector: '#post_form_description',
            
         });
     
-    </script>
+    </script> #}
 {% endblock %}
