@@ -1,0 +1,20 @@
+@background: #f0d9fc;
+
+body {
+    background-color: @background;
+    font-family: 'Quicksand', sans-serif;
+}
+
+.uk-navbar-container {
+    border-radius: 10px;
+    overflow: hidden;
+    
+}
+.uk-navbar-nav > li > a {
+    color: black;
+
+    transition: background-color 0.3s ease; 
+    &:hover {
+        background-color: darken(@background, 10%);
+    }
+}
