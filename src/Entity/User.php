@@ -3,16 +3,20 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use App\Validator\PasswordStrength;
+use App\Validator\UniqueEmail;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\ClassMetadata;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Mapping\ClassMetadata as MappingClassMetadata;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\UniqueConstraint(name: 'UNIQ_IDENTIFIER_EMAIL', fields: ['email'])]
-#[UniqueEntity(fields: ['email'], message: 'There is already an account with this email')]
+//#[UniqueEntity(fields: ['email'], message: 'There is already an account with this email')]
 
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
@@ -23,7 +27,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(type: 'string', length: 180, unique: true)]
 
-  
+     /**
+     * @Assert\NotBlank(message="Email is required.")
+     * @Assert\Email(message="Plase enter a valid email.")
+     * @UniqueEmail
+     */
     private ?string $email = null;
 
     /**
@@ -33,9 +41,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private array $roles = [];
 
     /**
-     * @var string The hashed password
+     * @var string The hashed password 
+     * @Assert\NotBlank(message: 'Password cannot be empty')
      */
     #[ORM\Column]
+   
     private ?string $password = null;
 
     #[ORM\Column]
@@ -60,6 +70,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->id;
     }
 
+   
     public function getEmail(): ?string
     {
         return $this->email;
@@ -90,7 +101,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function getRoles(): array
     {
         $roles = $this->roles;
-        // guarantee every user at least has ROLE_USER
+  
         $roles[] = 'ROLE_USER';
 
         return array_unique($roles);
@@ -181,5 +192,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         }
 
         return $this;
+    }
+
+    public static function loadValidatorMetadata(MappingClassMetadata $metadata){
+        
+        $metadata->addPropertyConstraint('email', new UniqueEmail([
+            'message'=> 'validators.email_exists' ]));
     }
 }

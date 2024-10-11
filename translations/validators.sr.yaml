@@ -1,0 +1,10 @@
+validators:
+  email_exists: "Ova adresa već postoji."
+password_constraint: "Lozinka treba da sadrži najmanje 1 veliko slovo, 1 malo slovo, 1 broj i 1 specijalan karakter."
+unique_slug: "Identifikator mora biti jedinstven."
+valid_type_attachement: "Pogrešan format priloga."
+Invalid credentials.: "Pogrešna adresa ili lozinka."
+enter_password: "Unesite lozinku"
+enter_email: "Unesite vašu imejl adresu."
+matching_password: "Lozinke moraju biti iste."
+agree_terms: "Prihvatite uslove korišćenja."

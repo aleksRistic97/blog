@@ -3,18 +3,18 @@
 {% block body %}
    
     <h1></h1>
-    <h2 class="uk-heading-line uk-text-center">Edit post - {{post.title}}</h2>
+    <h2 class="uk-heading-line uk-text-center">{{'edit.post.title'|trans}} - {{post.title}}</h2>
     <div class="uk-container uk-container-expand uk-margin-large-left uk-margin-large-right">
         {{ form_start(form) }}
             <div class="uk-margin">
-                <label class="uk-form-label">Title</label>
+                <label class="uk-form-label">{{'title'|trans}}</label>
                 <div class="uk-form-controls">
                     {{ form_widget(form.title, {'attr': {'class': 'uk-input'}}) }}
                 </div>
             </div>
 
             <div class="uk-margin">
-                <label class="uk-form-label" >Description</label>
+                <label class="uk-form-label" >{{'description'|trans}}</label>
                 <div class="uk-form-controls">
                     {{ form_widget(form.description, {'attr': {'class': 'uk-textarea', 'id':'description'}}) }}
                 </div>
@@ -22,7 +22,7 @@
 
    
           <div class="uk-margin">
-                <label class="uk-form-label" >Slug</label>
+                <label class="uk-form-label" >{{'slug'|trans}}</label>
                 <div class="uk-form-controls">
                 {% if disabled %}
                     {{ form_widget(form.slug, {'attr': {'class': 'uk-input', 'readonly': 'readonly'}}) }}
@@ -33,7 +33,7 @@
 
     
             <div class="uk-margin">
-                <label class="uk-form-label" >Tags</label>
+                <label class="uk-form-label" >{{'tags'|trans}}</label>
                 <div class="uk-form-controls">
                     {{ form_widget(form.tags, {'attr': {'class': 'uk-select', 'multiple': 'multiple', 'size': '5'}}) }}
                 </div>
@@ -41,14 +41,14 @@
 
     
             <div class="uk-margin">
-                <label class="uk-form-label" >Category</label>
+                <label class="uk-form-label" >{{'category'|trans}}</label>
                 <div class="uk-form-controls">
                     {{ form_widget(form.category, {'attr': {'class': 'uk-select'}}) }}
                 </div>
             </div>
 
            <div class="uk-margin">
-                <label class="uk-form-label">Attachment</label>
+                <label class="uk-form-label">{{'attachements'|trans}}</label>
                 <ul>
             {% for attachment in post.attachments %}
                 <li>
@@ -57,7 +57,7 @@
                     </a>
                 </li>
             {% else %}
-                <li>No attachments found</li>
+                <li>{{'no.attachments'|trans}}</li>
             {% endfor %}
         </ul>
                 
@@ -65,13 +65,13 @@
                      data-prototype="{{ form_widget(form.attachments.vars.prototype)|e('html_attr') }}">
                         {{ form_widget(form.attachments) }}  
                 </div>
-                <button type="button" id="add-attachment" class="uk-button uk-button-primary uk-button-center">Add Attachment</button>
+                <button type="button" id="add-attachment" class="uk-button uk-button-primary uk-button-center">{{'add.attachment'|trans}}</button>
             </div>
 
      
 
             <div class="uk-margin">
-                <button type="submit" class="uk-button uk-button-primary uk-button-center">Save</button>
+                <button type="submit" class="uk-button uk-button-primary uk-button-center">{{'save'|trans}}</button>
             </div>
         {{ form_end(form) }}
         

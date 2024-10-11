@@ -10,7 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 #[ORM\Entity(repositoryClass: PostRepository::class)]
-#[UniqueEntity(fields: ['slug'], message: 'Slug must have unique value.')]
+#[UniqueEntity(fields: ['slug'], message: 'unique_slug')]
 class Post
 {
     #[ORM\Id]

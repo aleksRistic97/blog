@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Reset your password{% endblock %}
+{% block title %}{{'reset.password'|trans}}{% endblock %}
 
 {% block body %}
     {% for flash_error in app.flashes('reset_password_error') %}
@@ -10,19 +10,18 @@
   
     <h1></h1>
     <div class="uk-container uk-container-expand uk-margin-large-left uk-margin-large-right">
-         <h1>Reset your password</h1>
+         <h1>{{'reset.password'|trans}}</h1>
         {{ form_start(requestForm) }}
           <div class="uk-margin">
-                <label class="uk-form-label">Email</label>
+                <label class="uk-form-label">{{'email'|trans}}</label>
                 <div class="uk-form-controls uk-width-1-1 uk-width-1-2@m">
                     {{ form_widget(requestForm.email, {'attr': {'class': 'uk-input'}})}}
                     <small>
-                        Enter your email address, and we will send you a
-                        link to reset your password.
+                       {{'reset.text'|trans}}
                     </small>
                 </div>
             </div>
-            <button class="uk-button uk-button-primary uk-button-center">Send password reset email</button>
+            <button class="uk-button uk-button-primary uk-button-center">{{'btn.send.reset.email'|trans}}</button>
         {{ form_end(requestForm) }}
      </div>
 {% endblock %}

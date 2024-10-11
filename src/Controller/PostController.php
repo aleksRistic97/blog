@@ -6,6 +6,7 @@ use App\Entity\Attachment;
 use App\Entity\Post;
 use App\Form\PostFormType;
 use App\Repository\PostRepository;
+use App\Service\UploadService;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 use Knp\Component\Pager\PaginatorInterface;
@@ -39,8 +40,8 @@ class PostController extends AbstractController
        
 
         $pagination=$this->paginator->paginate($queryBuilder,
-        $request->query->getInt('page',1),
-        20);
+                            $request->query->getInt('page',1),
+                            5);
 
         return $this->render('posts/index.html.twig', [
             'pagination'=>$pagination]);
@@ -48,9 +49,7 @@ class PostController extends AbstractController
 
     #[Route('/posts/create', name: 'create_post')]
     #[IsGranted('IS_AUTHENTICATED_FULLY')]
-    public function create(Request $request, SluggerInterface $slugger,
-    #[Autowire('%kernel.project_dir%/public/uploads')] string $uploadsDirectory
-    ): Response
+    public function create(Request $request, UploadService $uploadService): Response
     {    
         $post=new Post();
 
@@ -59,37 +58,19 @@ class PostController extends AbstractController
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()){
-            $attachmentsData = $request->files->get('post_form')['attachments'];
+            $attachmentsData = $request->files->get('post_form')['attachments'] ?? null;
         
-          
-            foreach ($attachmentsData as $attachmentData) {
-                  /**   @var UploadedFile $uploadedFile **/
-                $uploadedFile = $attachmentData['file'];
-             
-                if($uploadedFile instanceof UploadedFile){
-                    $fileName=pathinfo($uploadedFile->getClientOriginalName(), PATHINFO_FILENAME);
-                    $slug=$slugger->slug($fileName);
-                    $newFileName=$slug.'-'.uniqid().'.'.$uploadedFile->guessExtension();
-                    
-                    try{
-                        $uploadedFile->move( $uploadsDirectory, $newFileName);
-                    } catch (FileException $ex){
-                        error_log($ex->getMessage());
+            if ($attachmentsData) {
+                foreach ($attachmentsData as $attachmentData) {
+                    /**   @var UploadedFile $uploadedFile **/
+                    $uploadedFile = $attachmentData['file'];
+                
+                    if($uploadedFile instanceof UploadedFile){
+                        $attachment=$uploadService->uploadFile($uploadedFile, $this->em, $this->getUser());
                     }
 
+                    $post->addAttachment($attachment); 
                 }
-
-                $attachment=new Attachment();
-                $attachment->setOriginalFileName($uploadedFile->getClientOriginalName());
-                $attachment->setFileName( $newFileName);
-                $attachment->setSlug($slug);
-                $attachment->setPath($uploadsDirectory.'/'.$newFileName);
-                $attachment->setUploadedBy($this->getUser());
-                $attachment->setPost($post);
-
-                $this->em->persist($attachment);
-
-                $post->addAttachment($attachment); 
             }
 
             $this->em->persist($post);
@@ -120,8 +101,7 @@ class PostController extends AbstractController
 
     #[Route('/posts/update/{slug}', name: 'update_post')]
     #[IsGranted('IS_AUTHENTICATED_FULLY')]
-    public function update(Request $request, $slug,  SluggerInterface $slugger,
-    #[Autowire('%kernel.project_dir%/public/uploads')] string $uploadsDirectory):Response{
+    public function update(Request $request, $slug,  UploadService $uploadService):Response{
 
        $repository=$this->em->getRepository(Post::class);
        $post=$repository->findOneBy(['slug' => $slug]);
@@ -134,39 +114,21 @@ class PostController extends AbstractController
      
        if($form->isSubmitted() && $form->isValid()){
 
-        $attachmentsData = $request->files->get('post_form')['attachments'];
-     //   dump($attachmentsData);
-          
-        foreach ($attachmentsData as $attachmentData) {
-              /**   @var UploadedFile $uploadedFile **/
-            $uploadedFile = $attachmentData['file'];
-         
-            if($uploadedFile instanceof UploadedFile){
-                $fileName=pathinfo($uploadedFile->getClientOriginalName(), PATHINFO_FILENAME);
-                $slug=$slugger->slug($fileName);
-                $newFileName=$slug.'-'.uniqid().'.'.$uploadedFile->guessExtension();
-                
-                try{
-                    $uploadedFile->move( $uploadsDirectory, $newFileName);
-                } catch (FileException $ex){
-                    error_log($ex->getMessage());
+        $attachmentsData = $request->files->get('post_form')['attachments'] ?? null;
+    
+        if ($attachmentsData) {      
+            foreach ($attachmentsData as $attachmentData) {
+                /**   @var UploadedFile $uploadedFile **/
+                $uploadedFile = $attachmentData['file'];
+            
+                if($uploadedFile instanceof UploadedFile){
+                    $attachment=$uploadService->uploadFile($uploadedFile, $this->em, $this->getUser());
+
                 }
 
+                $post->addAttachment($attachment); 
             }
-
-            $attachment=new Attachment();
-            $attachment->setOriginalFileName($uploadedFile->getClientOriginalName());
-            $attachment->setFileName( $newFileName);
-            $attachment->setSlug($slug);
-            $attachment->setPath($uploadsDirectory.'/'.$newFileName);
-            $attachment->setUploadedBy($this->getUser());
-            $attachment->setPost($post);
-
-            $this->em->persist($attachment);
-
-            $post->addAttachment($attachment); 
         }
-
 
 
             $this->em->persist($post);

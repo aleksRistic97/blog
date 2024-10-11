@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Log in!{% endblock %}
+{% block title %}{{'sign.in'|trans}}{% endblock %}
 
 
 {% block body %}
@@ -11,15 +11,16 @@
 
         {% if app.user %}
             <div class="mb-3">
-                You are logged in as {{ app.user.userIdentifier }}, <a href="{{ path('app_logout') }}">Logout</a>
+                {{'logged.as'|trans}} {{ app.user.userIdentifier }}, <a href="{{ path('app_logout') }}">{{'logout'|trans}}</a>
             </div>
         {% endif %}
 
         <div class="uk-container uk-container-expand uk-margin-large-left uk-margin-large-right">
-            <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
+        <h1></h1>
+            <h2 class="h3 mb-3 font-weight-normal">{{'please.sign.in'|trans}}</h2>
 
             <div class="uk-margin">
-                <label class="uk-form-label">Email</label>
+                <label class="uk-form-label">{{'email'|trans}}</label>
                 <div class="uk-form-controls">
                      <input type="email" value="{{ last_username }}" name="_username" id="username" 
                             class="uk-input uk-form-width-large" autocomplete="email" required autofocus>
@@ -27,7 +28,7 @@
             </div>
 
             <div class="uk-margin">
-                <label class="uk-form-label">Password</label>
+                <label class="uk-form-label">{{'password'|trans}}</label>
                 <div class="uk-form-controls">
                 <input type="password" name="_password" id="password" class="uk-input uk-form-width-large" autocomplete="current-password" required>
 
@@ -37,8 +38,8 @@
                      
         </div>
 
-        <button type="submit" class="uk-button uk-button-primary uk-button-center">Sign in</button>
-                <a href="{{ path('app_forgot_password_request') }}">Reset password</a>
+        <button type="submit" class="uk-button uk-button-primary uk-button-center">{{'sign.in'|trans}}</button>
+                <a href="{{ path('app_forgot_password_request') }}">{{'reset.password'|trans}}</a>
     </form>
                 
 

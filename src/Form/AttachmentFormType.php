@@ -30,7 +30,7 @@
                                 'image/jpeg',
                                 'image/png',
                             ],
-                            'mimeTypesMessage' => 'Please upload a valid type of attachment'
+                            'mimeTypesMessage' => 'valid_type_attachement'
                         ]),
                     ],
                 ]);  

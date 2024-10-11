@@ -1,0 +1,9 @@
+validators:
+  email_exists: "This email already exists."
+unique_slug: "Slug must be unique."
+valid_type_attachement: "Please add a another type of attachment."
+Invalid credentials.: "Invalid email or password"
+enter_password: "Please enter your password"
+enter_email: "Please enter your email. "
+matching_password: "The password fields must match."
+agree_terms: "You should agree to our terms."

@@ -24,5 +24,12 @@ services:
             $mailer: '@mailer'
             $emailVerifier: '@App\Security\EmailVerifier'
             $router: '@router'
+    App\Service\UploadService:
+         arguments:
+            $uploadsDirectory: '%uploads_directory%'
+    App\Validator\UniqueEmailValidator:
+        arguments:
+            $userRepository: '@App\Repository\UserRepository'
+    App\Validator\PasswordStrengthValidator: ~
 
- 
+    

@@ -72,7 +72,7 @@ class RegistrationController extends AbstractController
         if (null === $user) {
             return $this->redirectToRoute('app_register');
         }
-        // validate email confirmation link, sets User::isVerified=true and persists
+
         try {
             $this->emailVerifier->handleEmailConfirmation($request, $user);
             $this->emailService->sendWelcomeEmail($user);
@@ -89,12 +89,10 @@ class RegistrationController extends AbstractController
     #[Route('/verify_pending', name: 'verify_pending')]
     public function verifyPending(SessionInterface $session):Response{
         if (!$session->get('registration_completed')) {
-            // Ako nije, preusmeri ga na registracionu stranicu
             $this->addFlash('error', 'You must complete registration before accessing this page.');
             return $this->redirectToRoute('app_register');
         }
 
-        // Očisti indikator iz sesije da se ne može ponovo pristupiti stranici bez registracije
         $session->remove('registration_completed');
         return $this->render('registration/verify_email.html.twig');
     }

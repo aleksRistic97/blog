@@ -1,7 +1,7 @@
 {% extends './base.html.twig' %} 
 
 {% block title %}
-    Posts Page
+    {{'blog.posts.title'|trans}}
 {% endblock %}
 
 {% block head %}
@@ -15,12 +15,12 @@
  {% if app.user %}
         <p uk-margin class="uk-text-center">
           
-            <a class="uk-button uk-button-primary uk-button-large" href={{path('create_post')}}>Add new post</a>
+            <a class="uk-button uk-button-primary uk-button-large" href={{path('create_post')}}>{{'add.post'|trans}}</a>
         </p>
  {% endif %}
 
- 
-        <h2 class="uk-text-center ">Blog Posts</h2>
+       
+        <h2 class="uk-text-center ">{{'blog.posts.title'|trans}}</h2>
        
         {% if pagination.items|length > 0 %}
          <div class="uk-container">
@@ -28,7 +28,7 @@
                 {% for post in pagination.items %}
                     <div >
                         <article class="uk-article uk-card uk-card-default uk-card-body">
-                                <h3 class="uk-card-title">{{ post.title }}</h3>
+                                <h3 class="uk-card-title">{{ post.title}}</h3>
                                 {% if post.description|length>100 %}
                                      {{ post.description | slice(0,100)  | raw  }}  ...    </strong> 
                                 {% else %}
@@ -36,7 +36,7 @@
                                 {% endif %}
                                                      
                                 <div class="uk-margin-top uk-flex-auto"></div>
-                                <a href="{{ path('show_post', {'slug': post.slug}) }}" class="uk-button uk-button-text">Read more</a>
+                                <a href="{{ path('show_post', {'slug': post.slug}) }}" class="uk-button uk-button-text">{{'read'|trans}}</a>
                         </article>   
                            
                     </div>
@@ -51,7 +51,7 @@
    </div>
     
         {% else %}
-             <p class="uk-alert-warning" uk-alert>No posts found.</p>
+             <p class="uk-alert-warning" uk-alert>{{'no.posts'|trans}}</p>
         {% endif %}
   
 
