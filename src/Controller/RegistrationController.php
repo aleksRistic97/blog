@@ -15,6 +15,7 @@ use Symfony\Component\Mime\Address;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Attribute\Route;
 use SymfonyCasts\Bundle\VerifyEmail\Exception\VerifyEmailExceptionInterface;
+use Symfony\Component\Uid\Uuid;
 class RegistrationController extends AbstractController
 {
     private EmailService $emailService;
@@ -44,11 +45,14 @@ class RegistrationController extends AbstractController
          
             $user->setPassword($userPasswordHasher->hashPassword($user, $plainPassword));
             $user->setRoles(['ROLE_USER']);
+
+            $verificationToken = Uuid::v4()->toRfc4122(); 
+            $user->setVerificationToken($verificationToken);
            
             $entityManager->persist($user);
             $entityManager->flush();
   
-            $session->set('registration_completed', true);
+           $session->set('registration_completed', true);
 
             $this->emailService->sendVerificationEmail($user, 'app_verify_email');
             

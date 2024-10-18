@@ -1,7 +1,7 @@
 {% extends './base.html.twig' %} 
 
 {% block title %}
-    {{'blog.posts.title'|trans}}
+    {{'post.list.title'|trans}}
 {% endblock %}
 
 {% block head %}
@@ -15,19 +15,19 @@
  {% if app.user %}
         <p uk-margin class="uk-text-center">
           
-            <a class="uk-button uk-button-primary uk-button-large" href={{path('create_post')}}>{{'add.post'|trans}}</a>
+            <a id="special_style" class="uk-button uk-button-primary uk-button-large" href={{path('update_post')}}>{{'post.add'|trans}}</a>
         </p>
  {% endif %}
 
        
-        <h2 class="uk-text-center ">{{'blog.posts.title'|trans}}</h2>
+        <h2 class="uk-text-center">{{'post.list.title'|trans}}</h2>
        
         {% if pagination.items|length > 0 %}
          <div class="uk-container">
             <div class="uk-grid-small uk-child-width-1-3@m uk-child-width-1-2@s uk-grid-match uk-flex-center" uk-grid> 
                 {% for post in pagination.items %}
                     <div >
-                        <article class="uk-article uk-card uk-card-default uk-card-body">
+                        <article id="index_posts" class="uk-article uk-card uk-card-default uk-card-body">
                                 <h3 class="uk-card-title">{{ post.title}}</h3>
                                 {% if post.description|length>100 %}
                                      {{ post.description | slice(0,100)  | raw  }}  ...    </strong> 
@@ -36,7 +36,7 @@
                                 {% endif %}
                                                      
                                 <div class="uk-margin-top uk-flex-auto"></div>
-                                <a href="{{ path('show_post', {'slug': post.slug}) }}" class="uk-button uk-button-text">{{'read'|trans}}</a>
+                                <a href="{{ path('show_post', {'slug': post.slug}) }}"  class="uk-button uk-button-text">{{'post.read_more'|trans}}</a>
                         </article>   
                            
                     </div>
@@ -51,7 +51,7 @@
    </div>
     
         {% else %}
-             <p class="uk-alert-warning" uk-alert>{{'no.posts'|trans}}</p>
+             <p class="uk-alert-warning" uk-alert>{{'post.none'|trans}}</p>
         {% endif %}
   
 

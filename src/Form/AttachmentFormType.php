@@ -18,8 +18,8 @@
         {
             $builder
                 ->add('file', FileType::class, [
-                    'label' => 'Allowed types: JPEG, JPG, PNG, PDF',
-                    'mapped'=>false,
+                    'label'=>'attachment.allowed_formats',
+                    'mapped'=>false,    
                     'required' => false,
                     'constraints'=>[
                         new File([
@@ -30,7 +30,7 @@
                                 'image/jpeg',
                                 'image/png',
                             ],
-                            'mimeTypesMessage' => 'valid_type_attachement'
+                            'mimeTypesMessage' => 'attachment.allowed_formats'
                         ]),
                     ],
                 ]);  

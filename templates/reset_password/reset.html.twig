@@ -1,28 +1,28 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{{'reset.password'|trans}}{% endblock %}
+{% block title %}{{'user.password.reset'|trans}}{% endblock %}
 
 {% block body %}
   <h1></h1>
    <div class="uk-container uk-container-expand uk-margin-large-left uk-margin-large-right">
-   <h1>{{'reset.password'|trans}}</h1>
+   <h1>{{'user.password.reset'|trans}}</h1>
     {{ form_start(resetForm) }}
         <div class="uk-margin uk-width-1-1 uk-width-1-3@m">
-                {{ form_label(resetForm.plainPassword.first, 'new.password'|trans) }}
+                {{ form_label(resetForm.plainPassword.first, 'user.new_password'|trans) }}
                 <div class="uk-form-controls">
-                    {{ form_widget(resetForm.plainPassword.first, {'attr': {'class': 'uk-input', 'placeholder':  'new.password'|trans }})}}
+                    {{ form_widget(resetForm.plainPassword.first, {'attr': {'class': 'uk-input', 'placeholder':  'user.new_password'|trans }})}}
                 </div>
             </div>
 
             <div class="uk-margin uk-width-1-1 uk-width-1-3@m">
-                {{ form_label(resetForm.plainPassword.second, 'repeat.password'|trans) }}
+                {{ form_label(resetForm.plainPassword.second, 'user.repeat_password'|trans) }}
                 <div class="uk-form-controls">
-                    {{ form_widget(resetForm.plainPassword.second, {'attr': {'class': 'uk-input', 'placeholder': 'repeat.password'|trans}}) }}
+                    {{ form_widget(resetForm.plainPassword.second, {'attr': {'class': 'uk-input', 'placeholder': 'user.repeat_password'|trans}}) }}
                 </div>
             </div>
 
         
-        <button class="uk-button uk-button-primary uk-button-center">{{'reset.password'|trans}}</button>
+        <button class="uk-button uk-button-primary uk-button-center">{{'user.password.reset'|trans}}</button>
     {{ form_end(resetForm) }}
     
     

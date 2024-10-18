@@ -1,13 +1,13 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{{'register'|trans}}{% endblock %}
+{% block title %}{{'user.register'|trans}}{% endblock %}
 
 {% block body %}
     {% for flash_error in app.flashes('verify_email_error') %}
         <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
     {% endfor %}
 
-    <h2 class="uk-heading-line uk-text-center">{{'register'|trans}}</h2>
+    <h2 class="uk-heading-line uk-text-center">{{'user.register'|trans}}</h2>
     <div class="uk-container uk-margin-large-left uk-margin-large-right">
 
     {{ form_errors(registrationForm) }}
@@ -15,7 +15,7 @@
     {{ form_start(registrationForm) }}
     
             <div class="uk-margin uk-width-1-1 uk-width-1-3@m">
-                <label class="uk-form-label">{{'email'|trans}}</label>
+                <label class="uk-form-label">{{'user.email'|trans}}</label>
                 <div class="uk-form-controls">
                     {{ form_widget(registrationForm.email, {'attr': {'class': 'uk-input'}}) }}
                     {{ form_errors(registrationForm.email) }}
@@ -23,7 +23,7 @@
             </div>
 
             <div class="uk-margin uk-width-1-1 uk-width-1-3@m">
-                <label class="uk-form-label" >{{'password'|trans}}</label>
+                <label class="uk-form-label" >{{'user.password'|trans}}</label>
                 <div class="uk-form-controls">
                     {{ form_widget(registrationForm.plainPassword, {'attr': {'class': 'uk-textarea', 'id':'description'}}) }}
                     {{ form_errors(registrationForm.plainPassword) }}
@@ -31,10 +31,10 @@
             </div>
             <div class="uk-margin ">
                 {{ form_widget(registrationForm.agreeTerms, {'attr': {'class': 'uk-checkbox'}}) }}
-                {{ form_label(registrationForm.agreeTerms, 'agree'|trans) }}
+                {{ form_label(registrationForm.agreeTerms, 'terms.terms'|trans) }}
                 <h1 class="uk-text-meta">{{'terms.agree'|trans}}</h1>
             </div>
-        <button type="submit" class="uk-button uk-button-primary uk-button-center">{{'register'|trans}}</button>
+        <button type="submit" class="uk-button uk-button-primary uk-button-center">{{'user.register'|trans}}</button>
     {{ form_end(registrationForm) }}
 
 

@@ -2,150 +2,157 @@
 
 {% block body %}
    
+   
+    {% block javascripts %}
+
+        {{ encore_entry_script_tags('update') }}
+    
+    {% endblock %}
+   
     <h1></h1>
-    <h2 class="uk-heading-line uk-text-center">{{'edit.post.title'|trans}} - {{post.title}}</h2>
+    
+    {% if edit!=null %}
+        
+        <h2 class="uk-heading-line uk-text-center">{{'post.edit'|trans}} - {{post.title}}</h2>
+    
+    {% else %}
+
+        <h2 class="uk-heading-line uk-text-center">{{'post.new'|trans}}</h2>
+
+    {% endif %}
+    
+    
     <div class="uk-container uk-container-expand uk-margin-large-left uk-margin-large-right">
         {{ form_start(form) }}
+
             <div class="uk-margin">
-                <label class="uk-form-label">{{'title'|trans}}</label>
+                
+                <label class="uk-form-label">{{'post.title'|trans}}</label>
+                
                 <div class="uk-form-controls">
+            
                     {{ form_widget(form.title, {'attr': {'class': 'uk-input'}}) }}
+            
                 </div>
+            
             </div>
 
             <div class="uk-margin">
-                <label class="uk-form-label" >{{'description'|trans}}</label>
+            
+                <label class="uk-form-label" >{{'post.description'|trans}}</label>
+            
                 <div class="uk-form-controls">
-                    {{ form_widget(form.description, {'attr': {'class': 'uk-textarea', 'id':'description'}}) }}
+            
+                    {{ form_widget(form.description) }}
+            
                 </div>
+            
             </div>
 
    
-          <div class="uk-margin">
-                <label class="uk-form-label" >{{'slug'|trans}}</label>
+            <div class="uk-margin">
+                
+                <label class="uk-form-label" >{{'post.slug'|trans}}</label>
+                
                 <div class="uk-form-controls">
-                {% if disabled %}
-                    {{ form_widget(form.slug, {'attr': {'class': 'uk-input', 'readonly': 'readonly'}}) }}
-                 {% endif %}   
+               
+                    {% if edit!=null %}
                     
+                        {{ form_widget(form.slug, {'attr': {'class': 'uk-input', 'readonly': 'readonly'}}) }}
+                        {{ form_errors(form.slug) }}
+                
+                    {% else %}
+
+                        {{ form_widget(form.slug, {'attr': {'class': 'uk-input'}}) }}
+                        {{ form_errors(form.slug) }}
+                
+                    {% endif %}
+                   
                 </div>
+            
             </div>      
 
     
             <div class="uk-margin">
-                <label class="uk-form-label" >{{'tags'|trans}}</label>
+            
+                <label class="uk-form-label" >{{'post.tags'|trans}}</label>
+            
                 <div class="uk-form-controls">
+            
                     {{ form_widget(form.tags, {'attr': {'class': 'uk-select', 'multiple': 'multiple', 'size': '5'}}) }}
+            
                 </div>
+            
             </div>
 
     
             <div class="uk-margin">
-                <label class="uk-form-label" >{{'category'|trans}}</label>
+              
+                <label class="uk-form-label" >{{'category.single'|trans}}</label>
+               
                 <div class="uk-form-controls">
+               
                     {{ form_widget(form.category, {'attr': {'class': 'uk-select'}}) }}
+               
                 </div>
+            
             </div>
 
-           <div class="uk-margin">
-                <label class="uk-form-label">{{'attachements'|trans}}</label>
+            <div class="uk-margin">
+              
+                <label class="uk-form-label">{{'attachment.list'|trans}}</label>
+              
                 <ul>
-            {% for attachment in post.attachments %}
-                <li>
-                    <a href="{{ asset('uploads/' ~ attachment.fileName) }}" target="_blank">
-                        {{ attachment.originalFilename }}
-                    </a>
-                </li>
-            {% else %}
-                <li>{{'no.attachments'|trans}}</li>
-            {% endfor %}
-        </ul>
+                    {% for attachment in post.attachments %}
+                        <li>
+                            <a href="{{ asset('uploads/' ~ attachment.fileName) }}" target="_blank">
+                                {{ attachment.originalFilename }}
+                                 <button type="button" id="special_style" class="remove-attachment" onclick="removeAttachment(this)">X</button>
+                            </a>
+                        </li>
+                    {% else %}
+                        <li>{{'attachment.none'|trans}}</li>
+                    {% endfor %}
+                </ul>
                 
                 <div class="uk-form-controls" id="attachments-wrapper" 
-                     data-prototype="{{ form_widget(form.attachments.vars.prototype)|e('html_attr') }}">
-                        {{ form_widget(form.attachments) }}  
+                    
+                    data-prototype="{{ form_widget(form.attachments.vars.prototype)|e('html_attr') }}">
+                    {{ form_widget(form.attachments) }}  
+                
                 </div>
-                <button type="button" id="add-attachment" class="uk-button uk-button-primary uk-button-center">{{'add.attachment'|trans}}</button>
+
+                <button type="button" id="special_style" onClick='addAttachment()' 
+                        class="uk-button uk-button-primary uk-button-center">{{'attachment.add'|trans}}</button>
+            
             </div>
 
      
 
             <div class="uk-margin">
-                <button type="submit" class="uk-button uk-button-primary uk-button-center">{{'save'|trans}}</button>
+
+                <button type="submit" id="special_style" class="uk-button uk-button-primary uk-button-center"> {{'post.save'|trans}} </button>
+            
             </div>
+
+
         {{ form_end(form) }}
-        
         
           
     </div> 
     
-    <script>
-       
-        tinymce.init({
-            selector: '#post_form_description',
-              
-        });
-    
-    </script>
 
      <script>
 
-        document.getElementById('add-attachment').addEventListener('click', function() {
-          
-            var collectionHolder = document.getElementById('attachments-wrapper');
-
-            var prototype = collectionHolder.getAttribute('data-prototype');
-
-            
-            var index = collectionHolder.querySelectorAll('input[type="file"]').length;
-
-           
-            var newForm = prototype.replace(/__name__/g, index);
-
-        
-            var newFormDiv = document.createElement('div');
-            newFormDiv.innerHTML = newForm;
-            collectionHolder.appendChild(newFormDiv);
-        });
+        tinymce.init({
+            selector: '#post_form_description',
+              
+        }); 
+       
     </script>
+
 </body>
+
 </html>
 
 {% endblock %}
-
-{# <form>
-    <fieldset class="uk-fieldset">
-
-        <legend class="uk-legend">Legend</legend>
-
-        <div class="uk-margin">
-            <input class="uk-input" type="text" placeholder="Input" aria-label="Input">
-        </div>
-
-        <div class="uk-margin">
-            <select class="uk-select" aria-label="Select">
-                <option>Option 01</option>
-                <option>Option 02</option>
-            </select>
-        </div>
-
-        <div class="uk-margin">
-            <textarea class="uk-textarea" rows="5" placeholder="Textarea" aria-label="Textarea"></textarea>
-        </div>
-
-        <div class="uk-margin uk-grid-small uk-child-width-auto uk-grid">
-            <label><input class="uk-radio" type="radio" name="radio2" checked> A</label>
-            <label><input class="uk-radio" type="radio" name="radio2"> B</label>
-        </div>
-
-        <div class="uk-margin uk-grid-small uk-child-width-auto uk-grid">
-            <label><input class="uk-checkbox" type="checkbox" checked> A</label>
-            <label><input class="uk-checkbox" type="checkbox"> B</label>
-        </div>
-
-        <div class="uk-margin">
-            <input class="uk-range" type="range" value="2" min="0" max="10" step="0.1" aria-label="Range">
-        </div>
-
-    </fieldset>
-</form> #}

@@ -12,10 +12,20 @@ security:
                 class: App\Entity\User
                 property: email
         # used to reload user from session & other features (e.g. switch_user)
+
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
+        oauth_azure:
+            pattern: ^/connect/azure
+            provider: app_user_provider
+            stateless: true
+            custom_authenticators:
+                - App\Security\AzureAuthenticator
+            logout:
+                path: app_logout
+                target: posts
         main:
             lazy: true
             provider: app_user_provider
@@ -27,22 +37,14 @@ security:
             logout:
                 path: app_logout
                 target: posts
-            
+            stateless: false
+    
     access_control:
-            
-           
-
-            # activate different ways to authenticate
-            # https://symfony.com/doc/current/security.html#the-firewall
-
-            # https://symfony.com/doc/current/security/impersonating_user.html
-            # switch_user: true
-
-    # Easy way to control access for large sections of your site
-    # Note: Only the *first* access control that matches will be used
-   
-        # - { path: ^/admin, roles: ROLE_ADMIN }
-        # - { path: ^/profile, roles: ROLE_USER }
+        - { path: ^/connect/azure$, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/connect/azure/check$, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/posts/update/, roles: IS_AUTHENTICATED_FULLY }
+        
+      
 
 when@test:
     security:

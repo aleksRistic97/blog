@@ -25,7 +25,10 @@ class PostFormType extends AbstractType
 
         $builder
             ->add('title')
-            ->add('description', TextareaType::class)
+            ->add('description', TextareaType::class,[
+                'required'=>false
+            ])
+
             ->add('slug')
             ->add('tags', EntityType::class, [
                 'class' => Tag::class,

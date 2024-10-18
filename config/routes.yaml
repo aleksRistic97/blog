@@ -8,3 +8,12 @@ controllers:
         _locale: 'en|sr'
     defaults:
         _locale: 'en'
+
+connect_azure_start:
+    path: /connect/azure
+    controller: App\Controller\AzureController::connectAction
+
+connect_azure_check:
+    path: /connect/azure/check
+    controller: App\Controller\AzureController::connectCheckAction
+

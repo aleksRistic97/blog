@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{{'reset.password.tittle'|trans}}{% endblock %}
+{% block title %}{{'user.password.reset'|trans}}{% endblock %}
 
 {% block body %}
 
@@ -8,10 +8,10 @@
     <div class="uk-container">
           
         <p>
-            {{'check_email.text'|trans}} {{ resetToken.expirationMessageKey|trans(resetToken.expirationMessageData, 'ResetPasswordBundle') }}.
+            {{'password.reset_expiry'|trans}} {{ resetToken.expirationMessageKey|trans(resetToken.expirationMessageData, 'ResetPasswordBundle') }}.
         </p>
         <p>
-            {{'reset.password.tryagain'|trans}} <a href="{{ path('app_forgot_password_request') }}">{{'try.again'|trans}}</a>.
+            {{'user.password.reset_try_again'|trans}} <a href="{{ path('app_forgot_password_request') }}">{{'button.try_again'|trans}}</a>.
         </p>
     </div>
 

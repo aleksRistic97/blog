@@ -22,6 +22,7 @@ class Post
     private ?string $title = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
+    /** @Assert\NotNull(message= 'The description cannot be null.') */
     private ?string $description = null;
 
     #[ORM\Column(length: 50, unique:true)]

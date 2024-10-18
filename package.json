@@ -12,6 +12,7 @@
     "build": "encore production"
   },
   "dependencies": {
+    "core-js": "^3.38.1",
     "uikit": "^3.21.12"
   }
 }

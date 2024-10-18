@@ -47,44 +47,73 @@ class PostController extends AbstractController
             'pagination'=>$pagination]);
     }
 
-    #[Route('/posts/create', name: 'create_post')]
-    #[IsGranted('IS_AUTHENTICATED_FULLY')]
-    public function create(Request $request, UploadService $uploadService): Response
-    {    
-        $post=new Post();
+    #[Route('/posts/update/{slug}', name: 'update_post', defaults: ['slug' => null])]
 
-        $form = $this->createForm(PostFormType::class, $post);
+    public function update(Request $request, $slug,  UploadService $uploadService):Response
+    {
+        if(!$this->isGranted('IS_AUTHENTICATED_FULLY')){
+            return $this->redirectToRoute(route: 'app_login');
+        } 
 
-        $form->handleRequest($request);
+       if (!$slug) 
+       {
+            $post=new Post();
+       }
+       else
+       {
 
-        if($form->isSubmitted() && $form->isValid()){
-            $attachmentsData = $request->files->get('post_form')['attachments'] ?? null;
+            $repository=$this->em->getRepository(Post::class);
+            $post=$repository->findOneBy(['slug' => $slug]);
         
-            if ($attachmentsData) {
-                foreach ($attachmentsData as $attachmentData) {
+        }
+     
+       
+       $form=$this->createForm(PostFormType::class, $post);
+
+
+       $form->handleRequest($request);
+      
+     
+       if($form->isSubmitted() && $form->isValid())
+       {
+
+        $attachmentsData = $request->files->get('post_form')['attachments'] ?? null;
+    
+            if ($attachmentsData)
+            {      
+                foreach ($attachmentsData as $attachmentData)
+                {
                     /**   @var UploadedFile $uploadedFile **/
                     $uploadedFile = $attachmentData['file'];
                 
-                    if($uploadedFile instanceof UploadedFile){
+                    if($uploadedFile instanceof UploadedFile)
+                    {
+                    
                         $attachment=$uploadService->uploadFile($uploadedFile, $this->em, $this->getUser());
+
                     }
 
                     $post->addAttachment($attachment); 
                 }
             }
 
+
             $this->em->persist($post);
             $this->em->flush();
-              
-           return $this->redirectToRoute('posts');
-        }
 
-        return $this->render('posts/create.html.twig', [
-            'form' => $form->createView(),
-        ]);
+         return $this->redirectToRoute('posts');
+       }
+       
+       return $this->render('posts/update.html.twig',[
+        'post'=>$post,
+        'form'=>$form->createView(),
+        'edit'=> $slug!=null
+       ]);
 
+        
     }
-     #[Route('/posts/{slug}', methods:['GET'], name: 'show_post')]
+ 
+    #[Route('/posts/{slug}', methods:['GET'], name: 'show_post')]
     public function show($slug): Response
     {
         
@@ -99,49 +128,6 @@ class PostController extends AbstractController
         ]);
     } 
 
-    #[Route('/posts/update/{slug}', name: 'update_post')]
-    #[IsGranted('IS_AUTHENTICATED_FULLY')]
-    public function update(Request $request, $slug,  UploadService $uploadService):Response{
-
-       $repository=$this->em->getRepository(Post::class);
-       $post=$repository->findOneBy(['slug' => $slug]);
-       
-       $form=$this->createForm(PostFormType::class, $post);
-
-
-       $form->handleRequest($request);
-      
-     
-       if($form->isSubmitted() && $form->isValid()){
-
-        $attachmentsData = $request->files->get('post_form')['attachments'] ?? null;
     
-        if ($attachmentsData) {      
-            foreach ($attachmentsData as $attachmentData) {
-                /**   @var UploadedFile $uploadedFile **/
-                $uploadedFile = $attachmentData['file'];
-            
-                if($uploadedFile instanceof UploadedFile){
-                    $attachment=$uploadService->uploadFile($uploadedFile, $this->em, $this->getUser());
-
-                }
-
-                $post->addAttachment($attachment); 
-            }
-        }
-
-
-            $this->em->persist($post);
-            $this->em->flush();
-
-         return $this->redirectToRoute('posts');
-       }
-       
-       return $this->render('posts/update.html.twig',[
-        'post'=>$post,
-        'form'=>$form->createView(),
-        'disabled'=>true
-       ]);
-    }
 }
   
