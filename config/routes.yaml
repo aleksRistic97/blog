@@ -8,12 +8,14 @@ controllers:
         _locale: 'en|sr'
     defaults:
         _locale: 'en'
-
-connect_azure_start:
-    path: /connect/azure
-    controller: App\Controller\AzureController::connectAction
-
-connect_azure_check:
+azure_login:
     path: /connect/azure/check
-    controller: App\Controller\AzureController::connectCheckAction
+azure_connect:
+    path: /connect/azure
+    controller: hwi_oauth.controller.redirectToService
+    defaults:
+        service: azure
 
+app_logout:
+    path: /logout
+    controller: App\Controller\SecurityController::logout

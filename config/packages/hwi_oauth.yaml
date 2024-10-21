@@ -1,0 +1,16 @@
+hwi_oauth:
+    # https://github.com/hwi/HWIOAuthBundle/blob/master/docs/2-configuring_resource_owners.md
+    resource_owners:
+        azure:
+            type:                azure
+            client_id:           '%env(AZURE_CLIENT_ID)%'
+            client_secret:       '%env(AZURE_CLIENT_SECRET_ID)%'
+            authorization_url:    https://login.microsoftonline.com/%env(AZURE_TENANT_ID)%/oauth2/v2.0/authorize
+            access_token_url:     https://login.microsoftonline.com/%env(AZURE_TENANT_ID)%/oauth2/v2.0/token
+            infos_url:            https://graph.microsoft.com/v1.0/me
+            scope:                'openid profile email'
+            user_response_class:  HWI\Bundle\OAuthBundle\OAuth\Response\PathUserResponse
+            paths:
+                identifier: sub
+                email:      userPrincipalName
+                realname:   displayName

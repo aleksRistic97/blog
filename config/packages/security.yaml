@@ -1,48 +1,49 @@
 security:
-    # https://symfony.com/doc/current/security.html#registering-the-user-hashing-passwords
     password_hashers:
         Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface: 'auto'
-        # App\Entity\User: 'auto'
 
-    # https://symfony.com/doc/current/security.html#loading-the-user-the-user-provider
     providers:
-        # used to reload user from session & other features (e.g. switch_user)
         app_user_provider:
             entity:
                 class: App\Entity\User
                 property: email
-        # used to reload user from session & other features (e.g. switch_user)
+        hwi_oauth.user.provider:
+            id: hwi_oauth.user.provider
 
     firewalls:
-        dev:
-            pattern: ^/(_(profiler|wdt)|css|images|js)/
-            security: false
-        oauth_azure:
-            pattern: ^/connect/azure
-            provider: app_user_provider
-            stateless: true
-            custom_authenticators:
-                - App\Security\AzureAuthenticator
-            logout:
-                path: app_logout
-                target: posts
         main:
             lazy: true
             provider: app_user_provider
+            entry_point: form_login
+
             form_login:
                 login_path: app_login
                 check_path: app_login
                 enable_csrf: true
                 default_target_path: posts
+            
+
+            oauth:
+                resource_owners:
+                    azure: "/connect/azure/check"  
+                login_path: /connect/azure 
+                use_forward: false
+                failure_path: /login
+                default_target_path: posts
+
+                oauth_user_provider:
+                    service: hwi_oauth.user.provider
+
+            
+
             logout:
                 path: app_logout
                 target: posts
-            stateless: false
-    
+
+
     access_control:
-        - { path: ^/connect/azure$, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/connect/azure/check$, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/posts/update/, roles: IS_AUTHENTICATED_FULLY }
+        - { path: /posts/update/, roles: IS_AUTHENTICATED_FULLY }
+        
         
       
 

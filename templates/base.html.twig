@@ -43,7 +43,12 @@
                                     {% if app.user %}
                                         <li>
                                             <a>
-                                                <span uk-icon="user"></span> {{'welcome'|trans}},  {{ app.user.email | slice(0, 20) }}...
+                                                <span uk-icon="user"></span> {{'welcome'|trans}}, 
+                                                 {% if app.user.email is defined and app.user.email %}
+                                                    {{ app.user.email | slice(0, 20) }}...
+                                                {% else %}
+                                                    {{ app.user.username | slice(0, 20) }}... 
+                                                {% endif %}
                                             </a>
                                         </li>
                                         <li>

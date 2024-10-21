@@ -31,5 +31,10 @@ services:
         arguments:
             $userRepository: '@App\Repository\UserRepository'
     App\Validator\PasswordStrengthValidator: ~
+    
+    App\Security\AzureAuthenticator:
+        arguments:
+            $router: '@router'
+
 
     
