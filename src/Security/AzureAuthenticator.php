@@ -31,7 +31,7 @@ class AzureAuthenticator extends AbstractAuthenticator
     {
         
         $credentials = $request->get('token'); 
-        return new SelfValidatingPassport(new UserBadge($credentials));
+      //  return dd ( new SelfValidatingPassport(new UserBadge($credentials)));
     }
 
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $firewallName): RedirectResponse

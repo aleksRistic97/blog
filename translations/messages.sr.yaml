@@ -20,6 +20,11 @@ attachment.allowed_formats: "Dozvoljeni formati: JPEG, JPG, PNG, PDF"
 # Kategorije
 category.single: "Kategorija"
 
+#Komentari
+comment.add: "Dodaj komentar"
+comment.replies: "Odgovori"
+comment.none: "Nema komentara"
+
 # Korisnici / Autentifikacija
 user.login: "Prijavite se"
 user.logout: "Izlogujte se"
@@ -46,3 +51,6 @@ terms.terms: "Uslovi korišćenja"
 password.reset_expiry: "Link za promenu lozinke ističe za"
 button.save: "Sačuvaj"
 button.try_again: "pokušajte ponovo"
+search: "Pretrazite"
+date: "Datum"
+

@@ -21,6 +21,11 @@ attachment.allowed_formats: "Allowed types: JPEG, JPG, PNG, PDF"
 # Categories
 category.single: "Category"
 
+# Comments
+comment.add: "Add comment"
+comment.replies: "Replies"
+comment.none: "No comments"
+
 # Users / Authentication
 user.login: "Sign in"
 user.logout: "Logout"
@@ -39,7 +44,7 @@ user.please_login: "Please sign in"
 user.verify_email: "Please verify your email address"
 user.verification: "Email verification"
 
-# Miscellaneous
+
 homepage: "Homepage"
 welcome: "Welcome"
 terms.agree: "You should agree to our terms."
@@ -47,3 +52,5 @@ terms.terms: "Agree to terms"
 password.reset_expiry: "This link will expire in"
 button.save: "Save"
 button.try_again: "Try again"
+search: "Search"
+date: "Date"

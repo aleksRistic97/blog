@@ -1,4 +1,6 @@
-function addAttachment(){
+
+function addAttachment()
+{
             
     var collectionHolder = document.getElementById('attachments-wrapper');
 
@@ -18,10 +20,16 @@ function addAttachment(){
 }
 
 
-function removeAttachment(button) {
+function removeAttachment(button)
+{
+
     var attachmentDiv = button.parentElement; 
-    attachmentDiv.remove(); 
+    attachmentDiv.remove();
+
 }
+
+
 
 window.addAttachment = addAttachment;
 window.removeAttachment = removeAttachment;
+window.addComment= addComment;

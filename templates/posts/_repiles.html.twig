@@ -1,0 +1,48 @@
+{% macro print_comments_recursively(reply, post) %}
+
+    <div class="response">
+
+        <article class="uk-comment uk-margin-medium-left" role="comment">
+
+            <header class="uk-comment-header">
+
+                <div class="uk-grid-medium uk-flex-middle" uk-grid>
+
+                    <div class="uk-width-expand">
+
+                        <h2 class="uk-comment-title uk-margin-remove"><a class="uk-link-reset" > {{ reply.author.email }} </a></h2>
+
+                        <ul class="uk-comment-meta uk-subnav uk-subnav-divider uk-margin-remove-top">
+
+                            <li><a id="comment_reply" href="{{ path('add_comment', {'slug': post.slug, 'id': reply.id }) }}"> Reply </a></li>
+
+                        </ul>
+
+                    </div>
+
+                </div>
+
+            </header>
+
+            <div class="uk-comment-body">
+
+                {{ reply.content | raw}}
+
+            </div>
+
+            {% if reply.replies | length > 0 %}
+
+                <p> {{ 'comment.replies' | trans }}</p>
+
+                {% for reply in reply.replies %}
+
+                    {{ _self.print_comments_recursively(reply, post) }}
+
+                {% endfor %}
+
+            {% endif %}
+
+        </article>
+    </div>
+
+{% endmacro %}

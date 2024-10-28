@@ -1,0 +1,30 @@
+{% extends "./base.html.twig" %}
+
+{% block body %}
+
+    <h2 class="uk-heading-line uk-text-center">{{'comment.add'|trans}}</h2>
+
+    <div class="uk-container uk-container-expand uk-margin-large-left uk-margin-large-right">
+        {{ form_start(commentForm) }}
+
+        <div class="uk-margin">
+
+            <div class="uk-form-controls">
+
+                {{ form_widget(commentForm.content) }}
+
+            </div>
+
+         </div>
+        {{ form_end(commentForm) }}
+    </div>
+
+    <script>
+
+        tinymce.init({
+            selector: '#comment_form_content',
+
+        });
+
+    </script>
+{% endblock %}

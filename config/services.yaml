@@ -36,5 +36,10 @@ services:
         arguments:
             $router: '@router'
 
+    oauth.user_provider:
+            class: App\Provider\OAuthUserProvider
+            arguments:
+                $entityManager: '@doctrine.orm.entity_manager'
+
 
     

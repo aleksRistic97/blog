@@ -1,7 +1,14 @@
 {% extends "./base.html.twig" %}
 
+{% import 'posts/_repiles.html.twig' as macros %}
+
 {% block body %}
 
+    {% block javascripts %}
+
+        {{ encore_entry_script_tags('show') }}
+
+    {% endblock %}
 
     <article class="uk-article uk-margin uk-margin-large-left">
 
@@ -24,13 +31,76 @@
         {% else %}
             <p>{{'attachment.none'|trans}}</p>
         {% endfor %}
-        
+
+        <h1></h1>
+
         {% if app.user %}
-            <a href="{{ path('update_post', {'slug': post.slug}) }}" id="special_style" class="uk-button uk-button-default uk-button-primary">{{'post.edit'|trans}}</a>
-        {% endif %}        
-        
- 
+
+            <a href="{{ path('update_post', {'slug': post.slug}) }}" id="special_style" class="uk-button uk-button-default uk-button-primary">{{ 'post.edit'|trans }}</a>
+
+            <a href="{{ path('add_comment', {'slug': post.slug}) }}" id="special_style" class="uk-button uk-button-default uk-button-primary">{{ 'comment.add'|trans }}</a>
+
+
+            <h1></h1>
+            <h1></h1>
+
+
+                {% for comment in pagination.items %}
+
+                    <h1></h1>
+
+                   {% if comment.parent is null %}
+
+                    <header class="uk-comment-header">
+
+                        <div class="uk-grid-medium uk-flex-middle" uk-grid>
+
+                            <div class="uk-width-expand">
+
+                                <h4 class="uk-comment-title uk-margin-remove"><a class="uk-link-reset" >{{ comment.author.email }}</a></h4>
+
+                                <ul class="uk-comment-meta uk-subnav uk-subnav-divider uk-margin-remove-top">
+
+                                    <li><a id="comment_reply" href="{{ path('add_comment', {'slug': post.slug, 'id':comment.id}) }}">Reply</a></li>
+
+                                </ul>
+
+                            </div>
+
+                        </div>
+
+                    </header>
+
+                    <div class="uk-comment-body">
+
+                        {{ comment.content | raw}}
+
+                    </div>
+
+
+                        {% if comment.replies | length > 0 %}
+
+                            <p> {{ 'comment.replies' | trans }}</p>
+
+                            {% for reply in comment.replies %}
+
+                                {{ macros.print_comments_recursively(reply, post) }}
+
+                            {% endfor %}
+
+                        {% endif %}
+
+                   {% endif %}
+
+                {% endfor %}
+
+
+            <div class="uk-margin-large-top uk-text-center">
+                {{ knp_pagination_render(pagination) }}
+            </div>
+
+        {% endif %}
+
     </article>
 
-   
 {% endblock %}

@@ -40,11 +40,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private array $roles = [];
 
-    /**
-     * @var string The hashed password 
-     * @Assert\NotBlank(message: 'Password cannot be empty')
-     */
-    #[ORM\Column]
+
+    #[ORM\Column(type: 'string', nullable: true)]
    
     private ?string $password = null;
 

@@ -19,3 +19,4 @@ azure_connect:
 app_logout:
     path: /logout
     controller: App\Controller\SecurityController::logout
+
