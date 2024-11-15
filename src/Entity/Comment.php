@@ -135,15 +135,20 @@ class Comment
 
     public function removeReply(self $reply): static
     {
-        if ($this->replies->removeElement($reply)) {
-            // set the owning side to null (unless already changed)
-            if ($reply->getReplies() === $this) {
+
+        if ($this->replies->removeElement($reply))
+        {
+
+            if ($reply->getReplies() === $this)
+            {
+
                 $reply->setReplies(null);
+
             }
         }
 
         return $this;
-    }
 
+    }
 
 }

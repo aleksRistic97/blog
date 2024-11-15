@@ -1,0 +1,53 @@
+{% block form_row %}
+
+    <div class="uk-margin">
+
+        <div class="uk-form-controls">
+
+            {{ form_label(form, form.vars.label|default(label), {'label_attr': {'class': 'uk-form-label'}}) }}
+            {{ form_widget(form, {'attr': attr}) }}
+        </div>
+
+        {{ form_errors(form) }}
+
+    </div>
+
+{% endblock %}
+
+{% block email_row %}
+
+    {% set attr = attr| merge ({'class': (attr.class|default('') ~ 'uk-input')| trim}) %}
+    {{ block('form_row') }}
+
+{% endblock %}
+
+{% block password_row %}
+
+    {% set attr = attr| merge ({'class': (attr.class|default('') ~ 'uk-input uk-password')| trim}) %}
+    {{ block('form_row') }}
+
+{% endblock %}
+
+{% block checkbox_row %}
+
+
+    {% set attr = attr| merge ({'class': (attr.class|default('') ~ 'uk-checkbox')| trim}) %}
+    {{ block('form_row') }}
+
+{% endblock %}
+
+{% block category_row %}
+
+    {% set attr = attr|merge({'class': (attr.class|default('') ~ ' uk-select')|trim}) %}
+    {{ block('form_row') }}
+
+{% endblock %}
+
+
+{% block tags_row %}
+
+    {% set attr = attr|merge({'class': (attr.class|default('') ~ ' uk-select'), 'multiple': 'multiple'}) %}
+    {{ block('form_row') }}
+
+{% endblock %}
+

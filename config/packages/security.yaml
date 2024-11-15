@@ -10,8 +10,14 @@ security:
         oauth_user_provider:
                 id: oauth.user_provider
 
-
     firewalls:
+
+        api:
+            pattern: /api/
+            stateless: true
+            http_basic: true
+            provider: app_user_provider
+
         main:
             lazy: true
             provider: app_user_provider
@@ -22,26 +28,26 @@ security:
                 check_path: app_login
                 enable_csrf: true
                 default_target_path: posts
-            
 
             oauth:
                 resource_owners:
-                    azure: "/connect/azure/check"  
-                login_path: /connect/azure 
+                    azure: "/connect/azure/check"
+                login_path: /connect/azure
                 use_forward: false
                 failure_path: /login
                 default_target_path: posts
                 oauth_user_provider:
                     service: oauth.user_provider
 
-
             logout:
                 path: app_logout
                 target: posts
 
-
     access_control:
-        - { path: /posts/update/, roles: IS_AUTHENTICATED_FULLY }
+#        - { path: "^/api/posts", roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: "/api/post", roles: ROLE_ADMIN }
+        - { path: "/posts/update/", roles: IS_AUTHENTICATED_FULLY }
+
         
         
       

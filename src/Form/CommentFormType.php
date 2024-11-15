@@ -20,7 +20,9 @@ class CommentFormType extends AbstractType
             ->add('content', TextareaType::class,[
                 'label'=> 'search',
                 'required'=>false])
-            ->add('submit',SubmitType::class,[])
+            ->add('submit',SubmitType::class,[
+
+            ])
 
         ;
     }

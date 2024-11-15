@@ -111,7 +111,7 @@
                             </a>
                         </li>
                     {% else %}
-                        <li>{{'attachment.none'|trans}}</li>
+                        <li style="color:white; font-size: 20px;">{{'attachment.none'|trans}}</li>
                     {% endfor %}
                 </ul>
                 
@@ -122,8 +122,8 @@
                 
                 </div>
 
-                <button type="button" id="special_style" onClick='addAttachment()' 
-                        class="uk-button uk-button-primary uk-button-center">{{'attachment.add'|trans}}</button>
+                <button type="button"  onClick='addAttachment()'
+                        class="uk-button uk-button-secondary uk-button-center">{{'attachment.add'|trans}}</button>
             
             </div>
 
@@ -131,7 +131,7 @@
 
             <div class="uk-margin">
 
-                <button type="submit" id="special_style" class="uk-button uk-button-primary uk-button-center"> {{'post.save'|trans}} </button>
+                <button type="submit"  class="uk-button uk-button-secondary uk-button-center"> {{'post.save'|trans}} </button>
             
             </div>
 

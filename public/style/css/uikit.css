@@ -4350,7 +4350,7 @@ select.uk-form-width-xsmall {
  * Pass fill character to JS
  */
 :root {
-  --uk-leader-fill-content: .;
+  /*--uk-leader-fill-content: .;*/
 }
 /* ========================================================================
    Component: Notification
@@ -6649,7 +6649,7 @@ ul.uk-nav-sub {
 .uk-animation-stroke {
   animation-name: uk-stroke;
   animation-duration: 2s;
-  stroke-dasharray: var(--uk-animation-stroke);
+  /*stroke-dasharray: var(--uk-animation-stroke);*/
 }
 /* Direction modifier
  ========================================================================== */
@@ -6856,7 +6856,7 @@ ul.uk-nav-sub {
  */
 @keyframes uk-stroke {
   0% {
-    stroke-dashoffset: var(--uk-animation-stroke);
+    /*stroke-dashoffset: var(--uk-animation-stroke);*/
   }
   100% {
     stroke-dashoffset: 0;

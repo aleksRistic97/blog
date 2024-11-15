@@ -4,52 +4,59 @@
 
 
 {% block body %}
-    <form method="post">
-        {% if error %}
-            <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-        {% endif %}
+    <div class="uk-container-expand login-form">
 
-        {% if app.user %}
-            <div class="mb-3">
-                {{'user.logged_as'|trans}} {{ app.user.userIdentifier }}, <a href="{{ path('app_logout') }}">{{'user.logout'|trans}}</a>
-            </div>
-        {% endif %}
 
-        <div class="uk-container uk-container-expand uk-margin-large-left uk-margin-large-right">
-        <h1></h1>
-            <h2 class="h3 mb-3 font-weight-normal uk-text-center">{{'user.please_login'|trans}}</h2>
+        <div class="uk-container login-image-container uk-visible@s">
 
-            <div class="uk-margin">
-                <label class="uk-form-label">{{'user.email'|trans}}</label>
-                <div class="uk-form-controls">
-                     <input type="email" value="{{ last_username }}" name="_username" id="username" 
-                            class="uk-input uk-form-width-large" autocomplete="email" required autofocus>
-                </div>
-            </div>
+            <img class="uk-img login-image uk-visible@s" src="/images/login-background.jpg" alt="registrationform-image"/>
 
-            <div class="uk-margin">
-                <label class="uk-form-label">{{'user.password'|trans}}</label>
-                <div class="uk-form-controls">
-                <input type="password" name="_password" id="password" class="uk-input uk-form-width-large" autocomplete="current-password" required>
-
-                <input type="hidden" name="_csrf_token"
-                    value="{{ csrf_token('authenticate') }}">
-            </div>
-                     
         </div>
 
-        <button type="submit" class="uk-button uk-button-primary uk-button-center">{{'user.login'|trans}}</button>
-        
-        <a href="{{ path('app_forgot_password_request') }}">{{'user.password.reset'|trans}}</a>
-        
-        <h3></h3>
+        <div class="uk-container login-form1">
+            <div class="login-form2">
+                <form method="post" class="uk-container">
 
-        <a href="{{ path('hwi_oauth_service_redirect', {'service': 'azure' })  }}" class="uk-button uk-button-primary uk-button-center"> {{'user.azure.signin'|trans}}</a>
+                    {% if error %}
+                        <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+                    {% endif %}
 
-    </form>
-                
+                    {% if app.user %}
+                        <div class="mb-3">
+                            {{'user.logged_as'|trans}} {{ app.user.userIdentifier }}, <a href="{{ path('app_logout') }}">{{'user.logout'|trans}}</a>
+                        </div>
+                    {% endif %}
 
 
+                    <h2 class="h3 mb-3 font-weight-normal uk-text-center">{{'user.please_login'|trans}}</h2>
+                    <a class="uk-link-muted forgotten-password uk-text-center" href="{{ path('app_register') }}">{{'user.register.fromLogin'|trans}}</a>
+                    <p></p>
+                    <label class="uk-form-label">{{'user.email'|trans}}</label>
+
+                    <input type="email" value="{{ last_username }}" name="_username" id="username"
+                                class="uk-input uk-form-width-large" autocomplete="email" required autofocus>
+
+
+                    <label class="uk-form-label">{{'user.password'|trans}}</label>
+
+                    <div class="uk-form-controls">
+
+                        <input type="password" name="_password" id="password" class="uk-input uk-form-width-large" autocomplete="current-password" required>
+
+                        <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+                        <button type="submit" class="uk-button registration-button uk-button-secondary uk-width-1-1">{{'user.login'|trans}}</button>
+
+                        <a class="uk-link-muted forgotten-password" href="{{ path('app_forgot_password_request') }}">{{'user.password.reset'|trans}}</a>
+
+                        <hr class="uk-divider-icon">
+
+                        <a href="{{ path('hwi_oauth_service_redirect', {'service': 'azure' })  }}" class="uk-button registration-button uk-button-secondary uk-width-1-1"> {{'user.azure.signin'|trans}}</a>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+</div>
 
                 
 

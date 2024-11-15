@@ -21,8 +21,14 @@
     "show": {
       "js": [
         "/build/runtime.js",
-        "/build/vendors-node_modules_core-js_modules_es_string_replace_js.js",
         "/build/show.js"
+      ]
+    },
+    "switchLanguage": {
+      "js": [
+        "/build/runtime.js",
+        "/build/vendors-node_modules_core-js_modules_es_string_replace_js.js",
+        "/build/switchLanguage.js"
       ]
     }
   }

@@ -1,26 +1,190 @@
-/*!*******************************************************************************************************************************************************************************************!*\
-  !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[4].oneOf[1].use[1]!./node_modules/less-loader/dist/cjs.js??ruleSet[1].rules[4].oneOf[1].use[2]!./assets/styles/app.less ***!
-  \*******************************************************************************************************************************************************************************************/
-body {
-  background-color: #f0d9fc;
-  font-family: 'Quicksand', sans-serif;
+.uk-height-viewport {
+  background-image: url("https://images.pexels.com/photos/3616764/pexels-photo-3616764.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2") !important;
+  z-index: -1;
 }
-.uk-navbar-container {
-  border-radius: 10px;
-  overflow: hidden;
-}
-.uk-navbar-nav li a {
+.uk-form-label {
   color: black;
-  -webkit-transition: all 0.3s ease-in-out;
-  -moz-transition: all 0.3s ease-in-out;
-  -o-transition: all 0.3s ease-in-out;
-  -ms-transition: all 0.3s ease-in-out;
-  transition: all 0.3s ease-in-out;
+  font-size: 20px;
 }
-.uk-navbar-nav li a:hover {
-  background-color: #ddaaf8;
+.article {
+  background: #ececec;
+  margin: 10px 30px !important;
+  padding: 10px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.article:hover {
+  transform: scale(1.02);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+body {
+  background-color: white;
+  font-family: 'Quicksand', sans-serif;
+  height: 100%;
+}
+body .footer {
+  position: sticky;
+  top: 100vh;
+}
+.login-form {
+  background: white;
+}
+.index-page .pagination {
+  position: sticky;
+  top: 100vh;
+}
+.uk-input,
+.uk-select {
+  border: 2px solid #595959;
+  border-radius: 15px;
+}
+.registration-button {
+  border-radius: 15px;
+  margin: 10px 0;
+}
+.register-form {
+  background: white;
+}
+.register-page {
+  background-color: white;
+}
+.test-class {
+  display: flex;
+  width: 30px;
+  align-items: center;
+  color: gray;
+}
+.navbar-categories {
+  width: 300px;
+  padding: 10px;
+}
+.navbar-search {
+  position: absolute;
+}
+.navbar-user {
+  position: static;
+  align-content: center;
+}
+.navbar-menu {
+  background: white;
+  color: black;
+}
+#uk-button-navbar {
+  font-size: small;
+  padding: 10px;
+}
+.uk-offcanvas-bar {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  gap: 50px;
+}
+.uk-offcanvas-bar .navbar-menu-body {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  gap: 30px;
+}
+.uk-offcanvas-bar .navbar-menu-body > ul .uk-nav-sub > a {
+  font-family: 'Quicksand', sans-serif;
+  text-transform: uppercase;
+  color: #818080;
+}
+.uk-offcanvas-bar .navbar-menu-body > a {
+  font-family: 'Quicksand', sans-serif;
+  text-transform: uppercase;
+  color: #818080;
+  text-align: right;
+}
+.uk-offcanvas-bar .navbar-menu-footer {
+  margin: 20px 5px;
+}
+.uk-offcanvas-bar .navbar-menu-footer > a {
+  color: black;
+}
+.navbar-menu-body .uk-parent > a {
+  font-family: 'Quicksand', sans-serif;
+  text-transform: uppercase;
+  color: #818080;
+  text-align: right;
+  display: block;
+}
+.navbar-menu-body .uk-nav-sub li a {
+  font-family: 'Quicksand', sans-serif;
+  text-transform: uppercase;
+  color: #818080;
+  font-size: 14px;
+  text-align: right;
+  display: block;
+  padding: 10px;
+}
+.navbar-menu-body .uk-nav-sub li ul a {
+  font-family: 'Quicksand', sans-serif;
+  text-transform: uppercase;
+  color: #818080;
+  text-transform: none;
+  text-align: right;
+  display: block;
+}
+.registration-form {
+  display: flex;
+  height: calc(100vh - 100px);
+  margin: 0;
+  padding: 0;
+  justify-content: stretch;
+}
+.registration-form .registration-image {
+  overflow: hidden;
+  padding: 0;
+  margin: 0;
+  width: 50%;
+  height: calc(100vh - 100px);
+}
+.registration-form .register-image {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.registration-form .registration-form1 {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+.registration-form .registration-form2 {
+  width: 500px;
+  max-width: 400px;
+}
+.login-form {
+  display: flex;
+  height: calc(100vh - 100px);
+  margin: 0;
+  padding: 0;
+  justify-content: stretch;
+}
+.login-form .login-image-container {
+  overflow: hidden;
+  padding: 0;
+  margin: 0;
+  width: 50%;
+  height: calc(100vh - 100px);
+}
+.login-form .login-image {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.login-form .login-form1 {
+  display: flex;
+  align-items: center;
+}
+.login-form .login-form2 {
+  width: 350px;
+  max-width: 500px;
 }
 #index_posts {
+  margin: 10px;
+  padding: 20px;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 #index_posts:hover {
@@ -53,6 +217,53 @@ body {
   align-items: center;
   margin-bottom: 10px;
 }
-
-
-/*# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiYXBwLmNzcyIsIm1hcHBpbmdzIjoiOzs7QUFFQTtFQUVJO0VBQ0E7QUFGSjtBQU1BO0VBRUk7RUFDQTtBQUxKO0FBVUE7RUFNWTtFQUVBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7QUFkWjtBQWdCWTtFQUVLO0FBZmpCO0FBd0JBO0VBRUk7QUF2Qko7QUF5Qkk7RUFFSTtFQUNBO0FBeEJSO0FBOEJBO0VBRUk7QUE3Qko7QUErQkk7RUFFSTtFQUNBO0FBOUJSO0FBbUNBO0VBRUk7RUFDQTtFQUNBO0VBQ0E7QUFsQ0o7QUFzQ0E7RUFFTTtFQUNBO0FBckNOO0FBeUNBO0VBQ0k7RUFDQTtBQXZDSjtBQXlDQTtFQUVJO0VBQ0E7RUFDQTtBQXhDSiIsInNvdXJjZXMiOlsid2VicGFjazovLy8uL2Fzc2V0cy9zdHlsZXMvYXBwLmxlc3MiXSwic291cmNlc0NvbnRlbnQiOlsiQGJhY2tncm91bmQ6ICNmMGQ5ZmM7XG5cbmJvZHkge1xuXG4gICAgYmFja2dyb3VuZC1jb2xvcjogQGJhY2tncm91bmQ7XG4gICAgZm9udC1mYW1pbHk6ICdRdWlja3NhbmQnLCBzYW5zLXNlcmlmO1xuXG59XG5cbi51ay1uYXZiYXItY29udGFpbmVyIHtcblxuICAgIGJvcmRlci1yYWRpdXM6IDEwcHg7XG4gICAgb3ZlcmZsb3c6IGhpZGRlbjtcbiAgICBcbn1cblxuXG4udWstbmF2YmFyLW5hdiB7XG5cbiAgICBsaSB7XG4gICAgICAgIFxuICAgICAgICBhIHtcblxuICAgICAgICAgICAgY29sb3I6IGJsYWNrO1xuXG4gICAgICAgICAgICAtd2Via2l0LXRyYW5zaXRpb246IGFsbCAuM3MgZWFzZS1pbi1vdXQ7XG4gICAgICAgICAgICAtbW96LXRyYW5zaXRpb246ICAgIGFsbCAuM3MgZWFzZS1pbi1vdXQ7XG4gICAgICAgICAgICAtby10cmFuc2l0aW9uOiAgICAgIGFsbCAuM3MgZWFzZS1pbi1vdXQ7XG4gICAgICAgICAgICAtbXMtdHJhbnNpdGlvbjogICAgIGFsbCAuM3MgZWFzZS1pbi1vdXQ7XG4gICAgICAgICAgICB0cmFuc2l0aW9uOiAgICAgICAgIGFsbCAuM3MgZWFzZS1pbi1vdXQ7XG5cbiAgICAgICAgICAgICY6aG92ZXIge1xuXG4gICAgICAgICAgICAgICAgIGJhY2tncm91bmQtY29sb3I6IGRhcmtlbihAYmFja2dyb3VuZCwgMTAlKTtcbiAgICAgICAgICAgIH1cblxuICAgICAgICB9XG5cbiAgICB9XG5cbn1cblxuI2luZGV4X3Bvc3RzIHtcblxuICAgIHRyYW5zaXRpb246IHRyYW5zZm9ybSAwLjNzIGVhc2UsIGJveC1zaGFkb3cgMC4zcyBlYXNlO1xuXG4gICAgJjpob3ZlciB7XG5cbiAgICAgICAgdHJhbnNmb3JtOiBzY2FsZSgxLjA1KTsgIFxuICAgICAgICBib3gtc2hhZG93OiAwIDhweCAxNnB4IHJnYmEoMCwgMCwgMCwgMC4yKTsgIFxuXG4gICAgfVxuXG59XG5cbi51ay1jYXJkLXRpdGxle1xuXG4gICAgdGV4dC1hbGlnbjogY2VudGVyO1xuXG4gICAgJjpob3ZlcntcblxuICAgICAgICBmb250LXNpemU6IDI0cHg7XG4gICAgICAgIGNvbG9yOiBkYXJrZW4oIzNmMDczZCwgMjAlKVxuXG4gICAgfVxufVxuXG4udWstdGV4dC1jZW50ZXJ7XG5cbiAgICB0ZXh0LWFsaWduOiBjZW50ZXI7XG4gICAgdGV4dC10cmFuc2Zvcm06IHVwcGVyY2FzZTtcbiAgICBtYXJnaW4tYm90dG9tOiAzMHB4O1xuICAgIGZvbnQtZmFtaWx5OiAnVmVyZGFuYScsIHNhbnMtc2VyaWY7XG5cbn1cblxuI3NwZWNpYWxfc3R5bGUge1xuXG4gICAgICBhbGlnbi1pdGVtczogY2VudGVyO1xuICAgICAgYmFja2dyb3VuZC1pbWFnZTogbGluZWFyLWdyYWRpZW50KDEzNWRlZywgI2Y2OWFiNyA0MCUsICNmNjdiZDcpO1xuICAgICBcbn1cblxuI3NwZWNpYWxfc3R5bGUxIHtcbiAgICBhbGlnbi1pdGVtczogY2VudGVyO1xuICAgIGJhY2tncm91bmQtaW1hZ2U6IGxpbmVhci1ncmFkaWVudCgxMzVkZWcsICNmNjlhYjcgNDAlLCAjZjY3YmQ3KTtcbn1cbi5hdHRhY2htZW50LWl0ZW0ge1xuICAgXG4gICAgZGlzcGxheTogZmxleDsgXG4gICAgYWxpZ24taXRlbXM6IGNlbnRlcjsgXG4gICAgbWFyZ2luLWJvdHRvbTogMTBweDsgXG5cbiAgIFxufVxuXG5cblxuXG4iXSwibmFtZXMiOltdLCJzb3VyY2VSb290IjoiIn0=*/
+.pagination {
+  margin: 20px;
+}
+.pagination li a {
+  color: #0b0b0b;
+}
+.uk-disabled span {
+  color: black;
+}
+.index-title {
+  padding: 30px;
+  font-size: 44px;
+  color: #595959;
+}
+.uk-article-meta {
+  align-items: center;
+  font-size: 16px;
+  color: black;
+}
+.show-post {
+  margin: 10px;
+}
+.show-post p {
+  text-align: justify;
+}
+.comment {
+  margin: 10px 0;
+  background-color: #FAF7F0;
+  border-style: solid;
+  border-width: 0.5px;
+  opacity: 0.8;
+  padding: 5px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.comment:hover {
+  transform: scale(1.02);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+.replies {
+  background-color: #D8D2C2;
+  border-style: solid;
+  border-width: 0.5px;
+  margin: 10px 0;
+  padding: 10px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.replies:hover {
+  transform: scale(1.02);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}

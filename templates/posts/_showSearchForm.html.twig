@@ -1,0 +1,35 @@
+{% macro show_search_form(searchForm) %}
+
+    <div>
+
+        {{ form_start(searchForm) }}
+
+            <div class="uk-form-controls uk-margin-medium-left uk-margin-medium-right">
+
+                <label class="uk-form-label">{{ 'keyword_search'|trans }}</label>
+
+                {{ form_widget(searchForm.search, {'attr': {'class': 'uk-input '}}) }}
+
+            </div>
+
+            <div class="uk-form-controls uk-margin-medium-left  uk-margin-medium-right">
+
+                <label class="uk-form-label">{{ 'date'|trans }}</label>
+
+                {{ form_widget(searchForm.date, {'attr': {'class': 'uk-input'}}) }}
+
+            </div>
+
+            <p></p>
+
+            <div class="uk-form-controls uk-margin-medium-left uk-margin-medium-right">
+
+                {{ form_widget(searchForm.submit, {'attr': {'class': 'uk-button special_style'}}) }}
+
+            </div>
+
+        {{ form_end(searchForm) }}
+
+    </div>
+
+{% endmacro %}

@@ -1,47 +1,318 @@
-@background: #f0d9fc;
+@background: white;
+.sidebar() {
 
-body {
-
-    background-color: @background;
     font-family: 'Quicksand', sans-serif;
-
-}
-
-.uk-navbar-container {
-
-    border-radius: 10px;
-    overflow: hidden;
-    
+    text-transform: uppercase;
+    color: #818080;
 }
 
 
-.uk-navbar-nav {
 
-    li {
-        
-        a {
+.uk-height-viewport{
+    background-image: url("https://images.pexels.com/photos/3616764/pexels-photo-3616764.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2") !important;
+    z-index: -1;
+}
 
-            color: black;
+.uk-form-label{
 
-            -webkit-transition: all .3s ease-in-out;
-            -moz-transition:    all .3s ease-in-out;
-            -o-transition:      all .3s ease-in-out;
-            -ms-transition:     all .3s ease-in-out;
-            transition:         all .3s ease-in-out;
+    color: black;
+    font-size: 20px;
+}
+.article{
 
-            &:hover {
+    background: #ececec;
+    margin: 10px 30px !important;
+    padding: 10px;
 
-                 background-color: darken(@background, 10%);
-            }
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 
-        }
+    &:hover {
+
+        transform: scale(1.02);
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
 
     }
 
 }
 
+body {
+
+    background-color: @background;
+    font-family: 'Quicksand', sans-serif;
+    height: 100%;
+
+    .footer{
+
+        position: sticky;
+        top: 100vh;
+    }
+
+
+}
+
+.login-form{
+
+    background: white;
+}
+
+
+
+.index-page{
+
+    .pagination{
+
+        position: sticky;
+        top: 100vh;
+    }
+}
+.uk-input, .uk-select{
+
+    border: 2px solid #595959;
+    border-radius: 15px;
+}
+
+.registration-button{
+
+    border-radius: 15px;
+    margin: 10px 0;
+}
+
+.register-form{
+
+    background: white;
+}
+.register-page{
+
+    background-color: white;
+}
+
+
+.test-class
+{
+
+    display: flex;
+    width: 30px;
+    align-items: center;
+    color: gray;
+
+}
+
+.navbar-categories{
+
+    width: 300px;
+    padding: 10px;
+}
+.navbar-search
+{
+
+    position: absolute;
+}
+
+.navbar-user
+{
+
+  position: static;
+    align-content: center;
+
+}
+
+.navbar-menu{
+
+    background: @background;
+    color: black;
+}
+
+#uk-button-navbar {
+    font-size: small;
+    padding: 10px;
+}
+
+.uk-offcanvas-bar {
+
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    gap: 50px;
+
+    .navbar-menu-body {
+
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+            gap: 30px;
+        >ul {
+
+            .uk-nav-sub {
+
+                > a {
+
+                    .sidebar();
+                }
+
+            }
+        }
+
+        > a {
+            .sidebar();
+            text-align: right;
+
+        }
+
+
+
+
+    }
+
+    .navbar-menu-footer {
+
+        margin: 20px 5px;
+
+        > a {
+
+            color:black;
+        }
+    }
+
+
+}
+
+.navbar-menu-body {
+    .uk-parent {
+        >a {
+            .sidebar();
+            text-align: right;
+            display: block;
+        }
+    }
+    .uk-nav-sub {
+         li {
+             a {
+                .sidebar();
+                 font-size: 14px;
+                text-align: right;
+                display: block;
+                 padding: 10px;
+            }
+        }
+
+        li {
+            ul {
+
+                a {
+                    .sidebar();
+                    text-transform: none;
+                    text-align: right;
+                    display: block;
+
+                }
+
+            }
+
+        }
+    }
+}
+
+.registration-form{
+
+    display: flex;
+    height: calc(100vh - 100px);
+    margin: 0;
+    padding: 0;
+    justify-content: stretch;
+
+    .registration-image{
+
+        overflow: hidden;
+        padding: 0;
+        margin: 0;
+        width: 50%;
+        height: calc(100vh - 100px);
+
+    }
+
+    .register-image {
+
+        display: block;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+
+    }
+
+    .registration-form1{
+
+        display: flex;
+        justify-content: flex-end ;
+        align-items: center;
+
+
+    }
+
+    .registration-form2{
+
+        width: 500px;
+        max-width: 400px;
+
+    }
+
+
+
+}
+
+.login-form{
+
+    display: flex;
+    height: calc(100vh - 100px);
+    margin: 0;
+    padding: 0;
+    justify-content: stretch;
+
+    .login-image-container{
+
+        overflow: hidden;
+        padding: 0;
+        margin: 0;
+        width: 50%;
+        height: calc(100vh - 100px);
+
+    }
+
+
+    .login-image {
+
+        display: block;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+
+    }
+
+    .login-form1{
+
+        display: flex;
+      //  justify-content: flex-end ;
+        align-items: center;
+
+
+
+    }
+
+    .login-form2{
+
+      width: 350px;
+        max-width: 500px;
+
+    }
+
+
+}
+
+
+
 #index_posts {
 
+    margin: 10px;
+    padding: 20px;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 
     &:hover {
@@ -94,6 +365,84 @@ body {
    
 }
 
+.pagination{
+    margin: 20px;
 
+    li {
+         a {
 
+             color: #0b0b0b;
+         }
 
+    }
+}
+
+.uk-disabled{
+
+    span {
+
+        color: black;
+    }
+}
+
+.index-title{
+
+    padding: 30px;
+    font-size: 44px;
+    color: #595959;
+}
+
+.uk-article-meta{
+
+    align-items: center;
+    font-size: 16px;
+    color: black;
+}
+
+.show-post{
+
+    margin: 10px;
+
+    p{
+
+        text-align: justify;
+    }
+}
+
+.comment{
+
+    margin: 10px 0;
+    background-color: #FAF7F0;
+    border-style: solid;
+    border-width: 0.5px;
+    opacity:0.8;
+    padding: 5px;
+
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+    &:hover {
+
+        transform: scale(1.02);
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+
+    }
+
+}
+
+.replies{
+
+    background-color: #D8D2C2;
+    border-style: solid;
+    border-width: 0.5px;
+    margin: 10px 0;
+    padding: 10px;
+
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+    &:hover {
+
+        transform: scale(1.02);
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+
+    }
+}

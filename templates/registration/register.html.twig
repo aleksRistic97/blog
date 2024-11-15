@@ -1,43 +1,54 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{{'user.register'|trans}}{% endblock %}
 
-{% block body %}
-    {% for flash_error in app.flashes('verify_email_error') %}
-        <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
-    {% endfor %}
+{% block title %}
 
-    <h2 class="uk-heading-line uk-text-center">{{'user.register'|trans}}</h2>
-    <div class="uk-container uk-margin-large-left uk-margin-large-right">
-
-    {{ form_errors(registrationForm) }}
-     
-    {{ form_start(registrationForm) }}
-    
-            <div class="uk-margin uk-width-1-1 uk-width-1-3@m">
-                <label class="uk-form-label">{{'user.email'|trans}}</label>
-                <div class="uk-form-controls">
-                    {{ form_widget(registrationForm.email, {'attr': {'class': 'uk-input'}}) }}
-                    {{ form_errors(registrationForm.email) }}
-                </div>
-            </div>
-
-            <div class="uk-margin uk-width-1-1 uk-width-1-3@m">
-                <label class="uk-form-label" >{{'user.password'|trans}}</label>
-                <div class="uk-form-controls">
-                    {{ form_widget(registrationForm.plainPassword, {'attr': {'class': 'uk-textarea', 'id':'description'}}) }}
-                    {{ form_errors(registrationForm.plainPassword) }}
-                </div>
-            </div>
-            <div class="uk-margin ">
-                {{ form_widget(registrationForm.agreeTerms, {'attr': {'class': 'uk-checkbox'}}) }}
-                {{ form_label(registrationForm.agreeTerms, 'terms.terms'|trans) }}
-                <h1 class="uk-text-meta">{{'terms.agree'|trans}}</h1>
-            </div>
-        <button type="submit" class="uk-button uk-button-primary uk-button-center">{{'user.register'|trans}}</button>
-    {{ form_end(registrationForm) }}
-
-
-
+    {{'user.register'|trans}}
 
 {% endblock %}
+
+{% block body %}
+    <div class="register-form">
+
+        {% form_theme registrationForm 'form/form.html.twig' %}
+
+        {% for flash_error in app.flashes('verify_email_error') %}
+            <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
+        {% endfor %}
+
+        <div class="uk-container-expand registration-form">
+
+                <div class="uk-container registration-image uk-visible@s">
+
+                    <img class="uk-img register-image uk-visible@s" src="/images/login-background.jpg" alt="registrationform-image"/>
+
+                    </div>
+
+                <div class="uk-container uk-width-1-3@m registration-form1">
+                    <div class="registration-form2">
+
+                        <h2 class="uk-heading-line uk-text-center">{{'user.register'|trans}}</h2>
+
+                        {{ form_start(registrationForm) }}
+
+                        {{  form_row(registrationForm.email,{'label': 'user.email'|trans}) }}
+                        {{  form_row(registrationForm.plainPassword, {'label': 'user.password'|trans}) }}
+                        {{  form_row(registrationForm.agreeTerms, {'label': 'terms.terms'|trans}) }}
+
+                        <button type="submit" class="uk-button registration-button uk-button-secondary uk-width-1-1">{{'user.register'|trans}}</button>
+
+                        <hr class="uk-divider-icon">
+
+                        <a href="{{ path('hwi_oauth_service_redirect', {'service': 'azure' })  }}" class="uk-button registration-button uk-button-secondary uk-width-1-1">
+
+                            {{'user.azure.register'|trans}}
+
+                        </a>
+
+                        {{ form_end(registrationForm) }}
+
+                    </div>
+                </div>
+        </div>
+    </div>
+    {% endblock %}

@@ -22,6 +22,8 @@ Encore
      */
     .addEntry('app', './assets/app.js')
     .addEntry('update', './assets/js/update.js')
+    .addEntry('show','./assets/js/show.js')
+    .addEntry('switchLanguage','./assets/js/switchLanguage.js')
     // When enabled, Webpack "splits" your files into smaller pieces for greater optimization.
     .splitEntryChunks()
 

@@ -7,7 +7,9 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Serializer\Attribute\Groups;
 
 #[ORM\Entity(repositoryClass: PostRepository::class)]
 #[UniqueEntity(fields: ['slug'], message: 'unique_slug')]
@@ -16,26 +18,36 @@ class Post
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['post_list'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['post_list'])]
+    #[Assert\NotNull(message: 'Title cannot be null')]
     private ?string $title = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
-    /** @Assert\NotNull(message= 'The description cannot be null.') */
+    #[Assert\NotNull(message: 'Description cannot be null')]
+    #[Groups(['post_list'])]
     private ?string $description = null;
 
     #[ORM\Column(length: 50, unique:true)]
+    #[Groups(['post_list'])]
+    #[Assert\NotNull(message: 'Slug cannot be null')]
     private ?string $slug = null;
 
     /**
      * @var Collection<int, Tag>
      */
     #[ORM\ManyToMany(targetEntity: Tag::class, inversedBy: 'posts')]
+    #[Groups(['post_list'])]
+    #[Assert\NotNull(message: 'You should have at least one tag')]
     private Collection $tags;
 
     #[ORM\ManyToOne(inversedBy: 'posts')]
     #[ORM\JoinColumn(nullable: false)]
+    #[Groups(['post_list'])]
+    #[Assert\NotNull(message: 'Category cannot be null')]
     private ?Category $category = null;
 
     /**
@@ -52,6 +64,9 @@ class Post
 
     #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $createdAt = null;
+
+    #[ORM\ManyToOne(inversedBy: 'posts')]
+    private ?User $author = null;
 
     public function __construct()
     {
@@ -111,8 +126,11 @@ class Post
 
     public function addTag(Tag $tag): static
     {
-        if (!$this->tags->contains($tag)) {
+        if (!$this->tags->contains($tag))
+        {
+
             $this->tags->add($tag);
+
         }
 
         return $this;
@@ -139,9 +157,13 @@ class Post
 
     public function getParentCategory(): ?Category
     {
-        if($this->category->getCategory()){
+        if ($this->category->getCategory())
+        {
+
             return $this->category->getCategory();
+
         }
+
         return null;
     }
 
@@ -155,9 +177,12 @@ class Post
 
     public function addAttachment(Attachment $attachment): static
     {
-        if (!$this->attachments->contains($attachment)) {
+        if (!$this->attachments->contains($attachment))
+        {
+
             $this->attachments->add($attachment);
             $attachment->setPost($this);
+
         }
 
         return $this;
@@ -165,10 +190,14 @@ class Post
 
     public function removeAttachment(Attachment $attachment): static
     {
-        if ($this->attachments->removeElement($attachment)) {
-            // set the owning side to null (unless already changed)
-            if ($attachment->getPost() === $this) {
+        if ($this->attachments->removeElement($attachment))
+        {
+
+            if ($attachment->getPost() === $this)
+            {
+
                 $attachment->setPost(null);
+
             }
         }
 
@@ -185,9 +214,12 @@ class Post
 
     public function addComment(Comment $comment): static
     {
-        if (!$this->comments->contains($comment)) {
+        if (!$this->comments->contains($comment))
+        {
+
             $this->comments->add($comment);
             $comment->setPost($this);
+
         }
 
         return $this;
@@ -195,10 +227,14 @@ class Post
 
     public function removeComment(Comment $comment): static
     {
-        if ($this->comments->removeElement($comment)) {
-            // set the owning side to null (unless already changed)
-            if ($comment->getPost() === $this) {
+        if ($this->comments->removeElement($comment))
+        {
+
+            if ($comment->getPost() === $this)
+            {
+
                 $comment->setPost(null);
+
             }
         }
 
@@ -213,6 +249,18 @@ class Post
     public function setCreatedAt(?\DateTimeImmutable $createdAt): static
     {
         $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    public function getAuthor(): ?User
+    {
+        return $this->author;
+    }
+
+    public function setAuthor(?User $author): static
+    {
+        $this->author = $author;
 
         return $this;
     }

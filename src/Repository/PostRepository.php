@@ -2,57 +2,92 @@
 
 namespace App\Repository;
 
+use App\Entity\Category;
 use App\Entity\Post;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\DBAL\ParameterType;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
 use function Symfony\Component\String\s;
 
 /**
  * @extends ServiceEntityRepository<Post>
+ *
+ * @method Post[] findAll()
  */
 class PostRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
+
+    private EntityManagerInterface $em;
+    public function __construct(ManagerRegistry $registry, EntityManagerInterface $em)
     {
         parent::__construct($registry, Post::class);
+        $this->em = $em;
     }
 
-    public function searchByCriteria($search, $date)
+    public function searchByCriteria($parameters, $categorySlug)
     {
 
-        $sql = "SELECT * FROM post p WHERE 1=1";
 
-        if ( $date != null) {
+        $queryBuilder = $this->createQueryBuilder('p')
+                             ->join('p.category', 'c')
+                             ->where("1=1");
 
-            $sql .= " AND p.created_at LIKE :date";
-
-        }
-
-        if ($search!=null )
+        if ($categorySlug != null)
         {
-            $sql .= " AND (p.title LIKE :search OR p.description LIKE :search )";
+            $category = $this->em->getRepository(Category::class)->findOneBy(['slug' => $categorySlug]);
+
+            if ($category != null && $category->getCategory() === null)
+            {
+
+                $subcategories = $this->em->getRepository(category::class)->findBy(['category' => $category]);
+                $subcategoryIds = [];
+
+                foreach ($subcategories as $subcategory)
+                {
+
+                    $subcategoryIds []= $subcategory->getId();
+                }
+
+                $queryBuilder-> andWhere('c.id IN (:category)')
+                    ->setParameter('category', $subcategoryIds);
+
+            }
+            else
+            {
+
+                $queryBuilder->andWhere('c.slug = :slug')
+                    ->setParameter('slug', $categorySlug);
+            }
+
 
         }
 
-        $stmt = $this->getEntityManager()->getConnection()->prepare($sql);
-
-        if ($search != null) {
-
-            $stmt->bindValue("search", '%' . $search . '%');
-
-        }
-
-        if ($date != null)
+        foreach ($parameters as $key => $value)
         {
 
-            $date = $date->format('Y-m-d');
+            if ($value != null)
+            {
 
-            $stmt->bindValue("date", $date . '%');
+                switch ($key)
+                {
 
+                    case 'search':
+                        $search = $parameters['search'];
+                        $queryBuilder->andWhere('p.title LIKE :search')
+                            ->orWhere('p.description LIKE :search')
+                            ->setParameter('search', '%'.$search.'%');
+                            break;
+                    case 'date':
+                        $date = $parameters['date'];
+                        $queryBuilder->andWhere('p.createdAt LIKE :date')
+                            ->setParameter('date', $date.'%');
+                        break;
+                }
+            }
         }
 
-       return $stmt->executeQuery()->fetchAllAssociative();
+        return $queryBuilder;
     }
-
 }
+

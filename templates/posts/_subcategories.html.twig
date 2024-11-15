@@ -1,0 +1,12 @@
+{% macro showSubcategories (categories, parentCategory) %}
+
+    {% for category in categories %}
+
+        {% if category.category is not null and category.category.id == parentCategory.id %}
+
+            <li><a href="{{path('posts', {'slug' : category.slug, 'search' : app.request.get('search'), 'date': app.request.get('date')})}}">{{ category.title }}</a></li>
+
+        {% endif %}
+    {% endfor %}
+
+{% endmacro %}

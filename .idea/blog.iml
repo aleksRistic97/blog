@@ -106,8 +106,11 @@
       <excludeFolder url="file://$MODULE_DIR$/vendor/hwi/oauth-bundle" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/symfony/polyfill-uuid" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/symfony/uid" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/symfony/serializer" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" name="uikit" level="application" />
+    <orderEntry type="library" name="tinymce" level="application" />
   </component>
 </module>

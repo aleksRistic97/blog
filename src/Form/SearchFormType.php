@@ -2,6 +2,8 @@
 
 namespace App\Form;
 
+use App\Entity\Category;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -25,7 +27,9 @@ class SearchFormType extends AbstractType
                 'required' => false,
             ])
 
-            ->add('submit', SubmitType::class)
+            ->add('submit', SubmitType::class, [
+                'label' => 'search',
+            ])
 
         ;
     }

@@ -26,7 +26,7 @@ class PostFormType extends AbstractType
         $builder
             ->add('title')
             ->add('description', TextareaType::class,[
-                'required'=>false
+
             ])
 
             ->add('slug')
@@ -34,6 +34,10 @@ class PostFormType extends AbstractType
                 'class' => Tag::class,
                 'choice_label' => 'title',
                 'multiple' => true,
+                'required' => false,
+                'attr'=> [
+                    'class' => 'tags',
+                ]
             ])
      
             ->add('category', EntityType::class, [
@@ -51,11 +55,13 @@ class PostFormType extends AbstractType
             ])
 
             ->add('attachments', CollectionType::class, [
+                'required'=>false,
                 'entry_type'=>AttachmentFormType::class,
                 'allow_add'=>true,
                 'allow_delete'=>true,
                 'by_reference'=>false,
                 'mapped' => false,
+
             ]);  
             
 

@@ -3,18 +3,22 @@
 namespace App\Controller;
 
 use App\Entity\Attachment;
+use App\Entity\Category;
 use App\Entity\Comment;
 use App\Entity\Post;
 use App\Form\CommentFormType;
 use App\Form\PostFormType;
 use App\Form\SearchFormType;
 use App\Repository\PostRepository;
+use App\Service\GetParamsService;
 use App\Service\UploadService;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Tools\Pagination\Paginator;
+use http\Exception;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Bundle\SecurityBundle\Security;
+use Symfony\Component\Cache\Adapter\ArrayAdapter;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
@@ -24,20 +28,30 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Component\String\Slugger\SluggerInterface;
+use Symfony\Component\Serializer\SerializerInterface;
+
 
 class PostController extends AbstractController
 {
     private $em;
     private PaginatorInterface $paginator;
 
-    public function __construct(EntityManagerInterface $em, PaginatorInterface $paginator){
+    private GetParamsService $getParamsService;
+
+    public function __construct(EntityManagerInterface $em, PaginatorInterface $paginator, GetParamsService $getParamsService){
+
         $this->em=$em;
         $this->paginator=$paginator;
+        $this->getParamsService=$getParamsService;
     }
 
     #[Route('/posts', methods:['GET', 'POST'], name: 'posts')]
-    public function index(Request $request): Response
+    public function index(Request $request)
     {
+
+        $params = $request->query->all();
+
+        $categorySlug = filter_input(INPUT_GET,'slug');
 
         $repository=$this->em->getRepository(Post::class);
         $queryBuilder = $repository->createQueryBuilder('post');
@@ -45,27 +59,32 @@ class PostController extends AbstractController
         $form=$this->createForm(SearchFormType::class);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid())
-        {
-
-            $criteria=$form->getNormData();
-
-            $search=$criteria['search'] ? $criteria['search'] : null;
-            $date=$criteria['date'] ? $criteria['date'] : null;
+        if ($form->isSubmitted() && $form->isValid()) {
 
 
-            $queryBuilder = $repository->searchByCriteria($search, $date);
+           $parametars = $this->getParamsService->getParams($form->getNormData());
 
+            if ($categorySlug != null) {
+
+                $parametars['slug'] = $categorySlug;
+            }
+
+            return $this->redirectToRoute('posts', $parametars);
         }
+
+        $form->get('search')->setData($params['search'] ?? null);
+        $form->get('date')->setData(isset($params['date']) ? new \DateTimeImmutable($params['date']) : null);
+
+        $queryBuilder = $repository->searchByCriteria($params, $categorySlug);
 
         $pagination=$this->paginator->paginate($queryBuilder,
             $request->query->getInt('page',1),
-            5);
-
+            3);
 
         return $this->render('posts/index.html.twig', [
             'pagination'=>$pagination,
-            'searchForm'=>$form->createView(),]);
+            'searchForm'=>$form->createView(),
+        ]);
 
     }
 
@@ -203,6 +222,8 @@ class PostController extends AbstractController
                                     ->getQuery();
 
 
+        $categories=$this->em->getRepository(Category::class)->findAll();
+
         $pagination=$this->paginator->paginate($queryBuilder,
             $request->query->getInt('page',1),
             4);
@@ -211,7 +232,9 @@ class PostController extends AbstractController
         return $this->render('posts/show.html.twig', [
             'post'=>$post,
             'attachments'=>$attachments,
-            'pagination'=>$pagination
+            'pagination'=>$pagination,
+            'categories'=>$categories,
+
         ]);
     }
 

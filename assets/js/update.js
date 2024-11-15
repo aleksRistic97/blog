@@ -15,7 +15,7 @@ function addAttachment()
     newFormDiv.innerHTML = newForm;
 
  
-    newFormDiv.innerHTML += '<button type="button" id="special_style" onclick="removeAttachment(this)">X</button>';
+    newFormDiv.innerHTML += '<button type="button" onclick="removeAttachment(this)">X</button>';
     collectionHolder.appendChild(newFormDiv);
 }
 
@@ -27,8 +27,6 @@ function removeAttachment(button)
     attachmentDiv.remove();
 
 }
-
-
 
 window.addAttachment = addAttachment;
 window.removeAttachment = removeAttachment;
